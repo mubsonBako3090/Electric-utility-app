@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navbar from '@/component/Navbar';
+import Footer from '@/component/Footer';
 import styles from '@/styles/Dashboard.module.css';
 
 export default function Dashboard() {
