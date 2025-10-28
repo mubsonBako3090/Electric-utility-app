@@ -48,7 +48,7 @@ export default function Contact() {
       <section className={styles.contactHero}>
         <div className="container">
           <div className="row">
-            <div className="col-12 text-center">
+            <div className="col-12 my-4 text-center">
               <h1 data-aos="fade-up">Contact Us</h1>
               <p className={styles.heroSubtitle} data-aos="fade-up" data-aos-delay="200">
                 Get in touch with our team for any questions or concerns
@@ -62,31 +62,31 @@ export default function Contact() {
       <section className="section-padding">
         <div className="container">
           <div className="row">
-            <div className="col-lg-4 mb-4" data-aos="fade-up">
+            <div className="col-lg-4 my-4" data-aos="fade-up">
               <div className={styles.infoCard}>
                 <div className={styles.infoIcon}>
                   <i className="bi bi-telephone-fill"></i>
                 </div>
                 <h4>Phone</h4>
                 <p>24/7 Customer Service</p>
-                <a href="tel:1-800-555-POWER" className={styles.infoLink}>1-800-555-POWER</a>
+                <a href="tel:+2349164675884-POWER" className={styles.infoLink}>1-800-555-POWER</a>
                 <br />
                 <a href="tel:1-800-555-OUTAGE" className={styles.infoLink}>1-800-555-OUTAGE (Emergency)</a>
               </div>
             </div>
-            <div className="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+            <div className="col-lg-4 my-4" data-aos="fade-up" data-aos-delay="100">
               <div className={styles.infoCard}>
                 <div className={styles.infoIcon}>
                   <i className="bi bi-envelope-fill"></i>
                 </div>
                 <h4>Email</h4>
                 <p>Send us a message</p>
-                <a href="mailto:info@powergrid.com" className={styles.infoLink}>info@powergrid.com</a>
+                <a href="mailto:adammubarakbako@gmail.com" className={styles.infoLink}>info@powergrid.com</a>
                 <br />
-                <a href="mailto:support@powergrid.com" className={styles.infoLink}>support@powergrid.com</a>
+                <a href="mailto:mubarakadambako@gmail.com" className={styles.infoLink}>support@powergrid.com</a>
               </div>
             </div>
-            <div className="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <div className="col-lg-4 my-4" data-aos="fade-up" data-aos-delay="200">
               <div className={styles.infoCard}>
                 <div className={styles.infoIcon}>
                   <i className="bi bi-geo-alt-fill"></i>
@@ -94,9 +94,9 @@ export default function Contact() {
                 <h4>Office</h4>
                 <p>Visit our headquarters</p>
                 <address className={styles.address}>
-                  123 Energy Plaza<br />
+                  000 Energy Plaza<br />
                   Suite 500<br />
-                  Power City, PC 12345
+                  Power City, kaduna
                 </address>
               </div>
             </div>
@@ -223,8 +223,9 @@ export default function Contact() {
           </div>
         </div>
       </section>
-
+      
       <Footer />
+    
     </>
   );
 }

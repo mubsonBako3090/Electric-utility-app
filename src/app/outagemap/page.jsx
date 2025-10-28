@@ -13,9 +13,9 @@ export default function OutageMap() {
     // Simulate API call
     setTimeout(() => {
       setOutages([
-        { id: 1, area: 'Downtown District', customers: 1500, status: 'In Progress', estimatedRestoration: '2:00 PM' },
-        { id: 2, area: 'North Suburbs', customers: 800, status: 'Investigating', estimatedRestoration: '4:30 PM' },
-        { id: 3, area: 'West Industrial Zone', customers: 200, status: 'Restored', estimatedRestoration: 'Completed' }
+        { id: 1, area: 'Downtown District', customers: 1500000, status: 'In Progress', estimatedRestoration: '2:00 PM' },
+        { id: 2, area: 'North Suburbs', customers: 800000, status: 'Investigating', estimatedRestoration: '4:30 PM' },
+        { id: 3, area: 'West Industrial Zone', customers: 2000, status: 'Restored', estimatedRestoration: 'Completed' }
       ]);
       setLoading(false);
     }, 1000);
@@ -52,7 +52,7 @@ export default function OutageMap() {
                 <i className="bi bi-telephone-fill"></i>
                 <h4>Report Outage</h4>
                 <p>Call 24/7 Emergency Line</p>
-                <a href="tel:1-800-POWER-ON" className="btn btn-primary">1-800-POWER-ON</a>
+                <a href="tel:+2349164675884-POWER-ON" className="btn btn-primary">1-800-POWER-ON</a>
               </div>
             </div>
             <div className="col-md-4 mb-3" data-aos="fade-up" data-aos-delay="100">

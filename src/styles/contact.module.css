@@ -1,6 +1,6 @@
 .contactHero {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
+  background: linear-gradient(135deg, #0e206d, #b38ed8);
+  color: rgb(240, 231, 231);
   padding: 180px 0 100px;
   text-align: center;
 }
@@ -17,7 +17,7 @@
 }
 
 .infoCard {
-  background: white;
+  background: rgb(223, 186, 186);
   padding: 2.5rem 2rem;
   border-radius: 20px;
   text-align: center;
@@ -77,11 +77,11 @@
 }
 
 .contactFormSection {
-  background: var(--light-gray);
+  background: var(--light-grey);
 }
 
 .formContainer {
-  background: white;
+  background: rgb(255, 255, 255);
   padding: 3rem;
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);

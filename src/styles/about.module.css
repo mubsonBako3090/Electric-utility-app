@@ -41,15 +41,18 @@
 
 .aboutImage {
   border-radius: 20px;
+  height: 400;
+  width: 600;
   box-shadow: 0 20px 40px rgba(139, 81, 81, 0.1);
 }
 
-.missionText {
-  background: #1f1f22;
+.missionText  {
+  background: #1f1f24;
   font-size: 1.1rem;
   line-height: 1.8;
   margin-bottom: 2rem;
   color: #b7a7f1;
+   
 }
 
 .missionList {

@@ -61,15 +61,15 @@ export default function Footer() {
             <div className={styles.contactInfo}>
               <p>
                 <i className="bi bi-geo-alt me-2"></i>
-                123 Energy Plaza, Power City
+                000 Energy Plaza, kaduna city
               </p>
               <p>
                 <i className="bi bi-telephone me-2"></i>
-                1-800-555-POWER
+                +2349164675884-POWER
               </p>
               <p>
                 <i className="bi bi-envelope me-2"></i>
-                info@powergrid.com
+                mubarakadambako@gmail.com
               </p>
               <p>
                 <i className="bi bi-clock me-2"></i>
@@ -83,7 +83,7 @@ export default function Footer() {
           <div className="row align-items-center">
             <div className="col-md-6">
               <p className={styles.copyright}>
-                &copy; 2024 PowerGrid Utilities. All rights reserved.
+                &copy; 2025 PowerGrid Utilities. All rights reserved.
               </p>
             </div>
             <div className="col-md-6">

@@ -68,7 +68,7 @@ export default function Home() {
             <div className="col-lg-6" data-aos="fade-left">
               <div className={styles.heroImage}>
                 <img 
-                  src="/ima.jpeg" 
+                  src="/mum.jpg" 
                   alt="Energy Solutions" 
                   className="img-fluid"
                    style={{ width: '100%', height: '400px', maxWidth: 'none' }}
