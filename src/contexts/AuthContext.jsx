@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
         return { success: false, error: data.error };
       }
     } catch (error) {
-      return { success: false, error: 'Login failed' };
+      return { success: false, error: 'Network error. Please try again.' };
     }
   };
 
@@ -63,7 +63,7 @@ export function AuthProvider({ children }) {
         return { success: false, error: data.error };
       }
     } catch (error) {
-      return { success: false, error: 'Registration failed' };
+      return { success: false, error: 'Network error. Please try again.' };
     }
   };
 
@@ -77,12 +77,22 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+  };
+
+  const refreshUser = async () => {
+    await checkAuth();
+  };
+
   const value = {
     user,
     loading,
     login,
     register,
     logout,
+    updateUser,
+    refreshUser,
     isAuthenticated: !!user
   };
 
@@ -98,5 +108,5 @@ export const useAuth = () => {
   if (!context) {
     throw new Error('useAuth must be used within AuthProvider');
   }
-  return context;
+  return context;
 };

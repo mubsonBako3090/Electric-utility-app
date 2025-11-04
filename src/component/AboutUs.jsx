@@ -64,7 +64,7 @@ export default function About() {
               />
             </div>
             <div className="col-lg-6" data-aos="fade-left">
-              <h2 className="section-title text-light">Our Mission</h2>
+              <h2 className="section-title ">Our Mission</h2>
               <p className={styles.missionText}>
                 At PowerGrid Utilities, we are committed to providing safe, reliable, 
                 and affordable electricity to our customers. Our mission is to power 

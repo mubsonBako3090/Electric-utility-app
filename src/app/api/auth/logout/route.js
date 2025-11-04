@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { clearTokenCookie } from '../../../../lib/auth';
+import { clearTokenCookie } from '@/lib/auth';
 
 export async function POST() {
   try {

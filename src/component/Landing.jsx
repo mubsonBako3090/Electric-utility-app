@@ -5,7 +5,7 @@ import Head from 'next/head';
 import Header from '@/component/Navbar';
 import Footer from '@/component/Footer';
 import ServiceCard from '@/component/ServiceCard';
-import Lightbox from '@/component/Lightbox';
+import Lightbox from '@/component/LightBox';
 import styles from '@/styles/Home.module.css';
 
 export default function Home() {

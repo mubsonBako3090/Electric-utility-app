@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import connectDB from '../../../../lib/database';
-import User from '../../../../models/User';
-import { generateToken, setTokenCookie } from '../../../../lib/auth';
+import connectDB from '@/lib/database';
+import User from '@/models/User';
+import { generateToken, setTokenCookie } from '@/lib/auth';
 
 export async function POST(request) {
   try {
