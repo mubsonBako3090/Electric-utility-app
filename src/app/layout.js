@@ -1,6 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { AuthProvider } from '@/contexts/AuthContext';
+import AuthModal from '@/components/AuthModal';
 import '@/styles/globals.css';
 
 export default function RootLayout({ children }) {
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
       <body>
         <AuthProvider>
           {children}
+          <AuthModal />
         </AuthProvider>
       </body>
     </html>

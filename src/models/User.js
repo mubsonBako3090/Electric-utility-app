@@ -134,8 +134,9 @@ userSchema.methods.updateLastLogin = function() {
 
 // Get full name virtual
 userSchema.virtual('fullName').get(function() {
-  return  ${this.firstName} ${this.lastName};
+  return `${this.firstName} ${this.lastName}`;
 });
+
 
 // Transform output
 userSchema.set('toJSON', {
@@ -147,4 +148,4 @@ userSchema.set('toJSON', {
   }
 });
 
-export default mongoose.models.User || mongoose.model('User', userSchema);
+export default mongoose.models.User || mongoose.model('User', userSchema);

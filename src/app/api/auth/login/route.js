@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/database';
 import User from '@/models/User';
 import { generateToken, setTokenCookie } from '@/lib/auth';
+import { successResponse, errorResponse } from '@/lib/utils';
 
 export async function POST(request) {
   try {
@@ -12,7 +13,7 @@ export async function POST(request) {
     // Validation
     if (!email || !password) {
       return NextResponse.json(
-        { error: 'Email and password are required' },
+        errorResponse('Email and password are required'),
         { status: 400 }
       );
     }
@@ -22,14 +23,14 @@ export async function POST(request) {
     
     if (!user || !(await user.correctPassword(password, user.password))) {
       return NextResponse.json(
-        { error: 'Invalid email or password' },
+        errorResponse('Invalid email or password'),
         { status: 401 }
       );
     }
 
     if (!user.isActive) {
       return NextResponse.json(
-        { error: 'Account is deactivated. Please contact support.' },
+        errorResponse('Account is deactivated. Please contact support.'),
         { status: 401 }
       );
     }
@@ -41,18 +42,23 @@ export async function POST(request) {
     await user.updateLastLogin();
 
     // Create response
-    const response = NextResponse.json({
-      success: true,
-      message: 'Login successful',
-      user: {
-        id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        accountNumber: user.accountNumber,
-        customerType: user.customerType
-      }
-    });
+    const response = NextResponse.json(
+      successResponse({
+        user: {
+          id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phone: user.phone,
+          accountNumber: user.accountNumber,
+          meterNumber: user.meterNumber,
+          customerType: user.customerType,
+          address: user.address,
+          preferences: user.preferences,
+          lastLogin: user.lastLogin
+        }
+      }, 'Login successful')
+    );
 
     // Set cookie
     setTokenCookie(response, token);
@@ -62,8 +68,8 @@ export async function POST(request) {
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
+      errorResponse('Internal server error'),
+      { status: 500 }
+    );
+  }
 }

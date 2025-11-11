@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Navbar from '@/component/Navbar';
-import Footer from '@/component/Footer';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import styles from '@/styles/OutageMap.module.css';
 
 export default function OutageMap() {

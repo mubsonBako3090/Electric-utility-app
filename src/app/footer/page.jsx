@@ -1,5 +1,5 @@
 
-import Footer from "@/component/Footer";
+import Footer from "@/components/Footer";
 
 export default function FooterPage() {
   return (

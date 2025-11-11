@@ -6,6 +6,7 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -94,6 +95,11 @@ export function AuthProvider({ children }) {
     updateUser,
     refreshUser,
     isAuthenticated: !!user
+    ,
+    // modal control
+    showAuthModal,
+    openAuth: () => setShowAuthModal(true),
+    closeAuth: () => setShowAuthModal(false)
   };
 
   return (

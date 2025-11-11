@@ -2,24 +2,33 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/database';
 import User from '@/models/User';
 import { generateToken, setTokenCookie } from '@/lib/auth';
+import { handleError, successResponse, errorResponse } from '@/lib/utils';
 
 export async function POST(request) {
   try {
     await connectDB();
 
-    const { firstName, lastName, email, password, phone, address, customerType } = await request.json();
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      phone,
+      address,
+      customerType = 'residential'
+    } = await request.json();
 
     // Validation
     if (!firstName || !lastName || !email || !password || !phone || !address) {
       return NextResponse.json(
-        { error: 'All fields are required' },
+        errorResponse('All fields are required'),
         { status: 400 }
       );
     }
 
     if (password.length < 6) {
       return NextResponse.json(
-        { error: 'Password must be at least 6 characters' },
+        errorResponse('Password must be at least 6 characters'),
         { status: 400 }
       );
     }
@@ -28,7 +37,7 @@ export async function POST(request) {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
-        { error: 'User already exists with this email' },
+        errorResponse('User already exists with this email'),
         { status: 400 }
       );
     }
@@ -41,7 +50,7 @@ export async function POST(request) {
       password,
       phone,
       address,
-      customerType: customerType || 'residential'
+      customerType
     });
 
     // Generate token
@@ -51,18 +60,21 @@ export async function POST(request) {
     await user.updateLastLogin();
 
     // Create response
-    const response = NextResponse.json({
-      success: true,
-      message: 'Registration successful',
-      user: {
-        id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        accountNumber: user.accountNumber,
-        customerType: user.customerType
-      }
-    });
+    const response = NextResponse.json(
+      successResponse({
+        user: {
+          id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phone: user.phone,
+          accountNumber: user.accountNumber,
+          meterNumber: user.meterNumber,
+          customerType: user.customerType,
+          address: user.address
+        }
+      }, 'Registration successful')
+    );
 
     // Set cookie
     setTokenCookie(response, token);
@@ -71,9 +83,11 @@ export async function POST(request) {
 
   } catch (error) {
     console.error('Registration error:', error);
+    
+    const errorData = handleError(error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      errorResponse(errorData.error, errorData.details),
+      { status: errorData.details ? 400 : 500 }
     );
-  }
+  }
 }

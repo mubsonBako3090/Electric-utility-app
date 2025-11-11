@@ -1,8 +1,8 @@
 "use client";
 import Head from 'next/head';
-import Navbar from '@/component/Navbar';
-import Footer from '@/component/Footer';
-import ServiceCard from '@/component/ServiceCard';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ServiceCard from '@/components/ServiceCard';
 import styles from '@/styles/Services.module.css';
 
 export default function Services() {
