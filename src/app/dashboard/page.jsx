@@ -1,11 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import Navbar from '@/components/Navbar';
-
 import Footer from '@/components/Footer';
 import styles from '@/styles/Dashboard.module.css';
-
+import Header from '@/components/ui/Header';
 export default function Dashboard() {
   const { user, isAuthenticated, loading } = useAuth();
   const [dashboardData, setDashboardData] = useState(null);
@@ -73,7 +71,7 @@ export default function Dashboard() {
   if (!isAuthenticated) {
     return (
       <>
-        <Navbar />
+        <Header />
         <div className={styles.unauthorized}>
           <div className="container text-center">
             <i className="bi bi-shield-exclamation"></i>

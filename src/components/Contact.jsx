@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Head from 'next/head';
-import Navbar from '@/components/Navbar';
+import Header from '@/components/ui/Header';
 import Footer from '@/components/Footer';
 import styles from '@/styles/contact.module.css';
 
@@ -42,7 +42,7 @@ export default function Contact() {
 			</Head>
 
     
-<Navbar />
+<Header />
 
 			{/* Hero Section */}
 			<section className={styles.contactHero}>
@@ -224,7 +224,7 @@ export default function Contact() {
 				</div>
 			</section>
       
-			<Footer />
+		
     
 		</>
 	);

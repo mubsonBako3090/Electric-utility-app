@@ -1,9 +1,9 @@
 "use client";
 import Head from 'next/head';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ServiceCard from '@/components/ServiceCard';
 import styles from '@/styles/Services.module.css';
+import Header from '@/components/ui/Header';
 
 export default function Services() {
   const allServices = [
@@ -45,7 +45,7 @@ export default function Services() {
         <title>Our Services - PowerGrid Utilities</title>
       </Head>
 
-      <Navbar />
+      <Header />
 
       {/* Hero Section */}
       <section className={styles.servicesHero}>
@@ -107,7 +107,7 @@ export default function Services() {
         </div>
       </section>
 
-      <Footer />
+    
     </>
   );
 }

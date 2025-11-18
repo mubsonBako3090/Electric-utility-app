@@ -1,7 +1,6 @@
 'use client';
 import Head from 'next/head';
-import Header from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Header from '@/components/ui/Header';
 import styles from '@/styles/about.module.css';
 
 export default function About() {
@@ -80,8 +79,8 @@ export default function About() {
 					</div>
 				</div>
 			</section>
+		
 
-			<Footer />
 		</>
 	);
 }

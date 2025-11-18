@@ -1,34 +1,25 @@
 import { NextResponse } from 'next/server';
-import connectDB from '@/lib/database';
+import { withDatabase } from '@/lib/database';
 import User from '@/models/User';
 import { generateToken, setTokenCookie } from '@/lib/auth';
-import { handleError, successResponse, errorResponse } from '@/lib/utils';
+import { handleError, successResponse } from '@/lib/utils';
 
-export async function POST(request) {
+export const POST = withDatabase(async (request) => {
   try {
-    await connectDB();
-
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      phone,
-      address,
-      customerType = 'residential'
-    } = await request.json();
+    const body = await request.json();
+    const { firstName, lastName, email, password, phone, address, customerType } = body;
 
     // Validation
     if (!firstName || !lastName || !email || !password || !phone || !address) {
       return NextResponse.json(
-        errorResponse('All fields are required'),
+        { success: false, error: 'All fields are required' },
         { status: 400 }
       );
     }
 
     if (password.length < 6) {
       return NextResponse.json(
-        errorResponse('Password must be at least 6 characters'),
+        { success: false, error: 'Password must be at least 6 characters' },
         { status: 400 }
       );
     }
@@ -37,20 +28,26 @@ export async function POST(request) {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
-        errorResponse('User already exists with this email'),
+        { success: false, error: 'User already exists with this email' },
         { status: 400 }
       );
     }
 
     // Create user
     const user = await User.create({
-      firstName,
-      lastName,
-      email,
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      email: email.toLowerCase().trim(),
       password,
-      phone,
-      address,
-      customerType
+      phone: phone.trim(),
+      address: {
+        street: address.street?.trim() || '',
+        city: address.city?.trim() || '',
+        state: address.state?.trim() || '',
+        zipCode: address.zipCode?.trim() || '',
+        country: address.country?.trim() || 'US'
+      },
+      customerType: customerType || 'residential'
     });
 
     // Generate token
@@ -59,21 +56,23 @@ export async function POST(request) {
     // Update last login
     await user.updateLastLogin();
 
-    // Create response
+    // Create response with user data (excluding password)
+    const userResponse = {
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phone: user.phone,
+      accountNumber: user.accountNumber,
+      meterNumber: user.meterNumber,
+      customerType: user.customerType,
+      address: user.address,
+      preferences: user.preferences,
+      lastLogin: user.lastLogin
+    };
+
     const response = NextResponse.json(
-      successResponse({
-        user: {
-          id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          phone: user.phone,
-          accountNumber: user.accountNumber,
-          meterNumber: user.meterNumber,
-          customerType: user.customerType,
-          address: user.address
-        }
-      }, 'Registration successful')
+      successResponse({ user: userResponse }, 'Registration successful')
     );
 
     // Set cookie
@@ -86,8 +85,8 @@ export async function POST(request) {
     
     const errorData = handleError(error);
     return NextResponse.json(
-      errorResponse(errorData.error, errorData.details),
-      { status: errorData.details ? 400 : 500 }
-    );
+      { success: false, error: errorData.error, details: errorData.details },
+      { status: 400 }
+    );
   }
-}
+});

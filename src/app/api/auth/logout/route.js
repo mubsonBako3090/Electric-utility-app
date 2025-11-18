@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { clearTokenCookie } from '@/lib/auth';
+import { successResponse } from '@/lib/utils';
 
 export async function POST() {
   try {
-    const response = NextResponse.json({
-      success: true,
-      message: 'Logout successful'
-    });
+    const response = NextResponse.json(
+      successResponse(null, 'Logout successful')
+    );
 
     clearTokenCookie(response);
 
@@ -15,8 +15,8 @@ export async function POST() {
   } catch (error) {
     console.error('Logout error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
+      { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
 }

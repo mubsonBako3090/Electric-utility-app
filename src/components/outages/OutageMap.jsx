@@ -1,8 +1,14 @@
-'use client';
-import React from 'react';
+import OutageMap from "@/app/outagemap/page"
 
-export default function OutageMap() {
+export default function OutageMapPage() {
   return (
-    <div className="outage-map">Outage map placeholder</div>
+   <> 
+    <section className=" section ">
+      <div className="container">
+        <OutageMap />
+      </div>
+    </section>
+    </>
+
   );
 }

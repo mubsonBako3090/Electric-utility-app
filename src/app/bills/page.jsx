@@ -1,11 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import BillList from '@/components/bills/BillList';
 import PaymentForm from '@/components/bills/PaymentForm';
 import styles from '@/styles/pages/Bills.module.css';
+import Header from '@/components/ui/Header';
 
 export default function Bills() {
   const { user, isAuthenticated, loading } = useAuth();
@@ -128,7 +128,7 @@ export default function Bills() {
   if (loading) {
     return (
       <>
-        <Navbar />
+        <Header />
         <div className={styles.loadingContainer}>
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>

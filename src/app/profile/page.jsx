@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import Navbar from '@/components/Navbar';
+import Header from '@/components/ui/Header';
 import Footer from '@/components/Footer';
 import styles from '@/styles/pages/Profile.module.css';
 
@@ -96,8 +96,8 @@ export default function Profile() {
   };
 
   const states = [
-    'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
-    'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+    'Abia', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+    'HI', 'ID', 'IL', 'IN', 'IA', 'Kaduna', 'KY', 'LA', 'ME', 'MD',
     'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
     'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
     'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
@@ -106,7 +106,7 @@ export default function Profile() {
   if (loading) {
     return (
       <>
-        <Navbar />
+        <Header />
         <div className={styles.loadingContainer}>
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>
@@ -120,7 +120,7 @@ export default function Profile() {
   if (!isAuthenticated) {
     return (
       <>
-        <Navbar />
+        <Header />
         <div className={styles.unauthorized}>
           <div className="container text-center">
             <i className="bi bi-shield-exclamation"></i>
@@ -135,7 +135,7 @@ export default function Profile() {
 
   return (
     <>
-      <Navbar />
+      <Header />
 
       <div className={styles.profile}>
         {/* Header Section */}

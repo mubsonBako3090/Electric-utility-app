@@ -1,0 +1,93 @@
+'use client';
+import { useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import styles from '@/styles/components/Auth.module.css';
+
+export default function ProtectedRoute({ children, requiredRole = null, fallbackPath = '/auth/login' }) {
+  const { user, isAuthenticated, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading) {
+      // Check authentication
+      if (!isAuthenticated) {
+        console.log('User not authenticated, redirecting to login');
+        router.push(fallbackPath);
+        return;
+      }
+
+      // Check role if required
+      if (requiredRole && user?.role !== requiredRole) {
+        console.log(`User role ${user?.role} does not match required role ${requiredRole}`);
+        router.push('/unauthorized');
+        return;
+      }
+    }
+  }, [isAuthenticated, loading, user, requiredRole, router, fallbackPath]);
+
+  // Show loading spinner while checking authentication
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <p className="mt-3">Checking authentication...</p>
+      </div>
+    );
+  }
+
+  // Show nothing while redirecting
+  if (!isAuthenticated || (requiredRole && user?.role !== requiredRole)) {
+    return (
+      <div className={styles.loadingContainer}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Redirecting...</span>
+        </div>
+        <p className="mt-3">Redirecting...</p>
+      </div>
+    );
+  }
+
+  // User is authenticated and has required role (if any)
+  return children;
+}
+
+// Specific role-based protected routes
+export function CustomerRoute({ children }) {
+  return (
+    <ProtectedRoute requiredRole="customer" fallbackPath="/auth/login">
+      {children}
+    </ProtectedRoute>
+  );
+}
+
+export function AdminRoute({ children }) {
+  return (
+    <ProtectedRoute requiredRole="admin" fallbackPath="/admin/login">
+      {children}
+    </ProtectedRoute>
+  );
+}
+
+// Higher-order component version for page components
+export function withAuth(Component, requiredRole = null) {
+  return function AuthenticatedComponent(props) {
+    return (
+      <ProtectedRoute requiredRole={requiredRole}>
+        <Component {...props} />
+      </ProtectedRoute>
+    );
+  };
+}
+
+// Higher-order component for customer pages
+export function withCustomerAuth(Component) {
+  return withAuth(Component, 'customer');
+}
+
+// Higher-order component for admin pages
+export function withAdminAuth(Component) {
+  return withAuth(Component, 'admin');
+}
