@@ -1,3 +1,6 @@
+/* ===========================
+   HERO SECTION
+=========================== */
 .outageHero {
   background: linear-gradient(135deg, #f8a3a3, #551b06);
   color: white;
@@ -16,6 +19,9 @@
   opacity: 0.9;
 }
 
+/* ===========================
+   QUICK ACTIONS
+=========================== */
 .quickActions {
   padding: 60px 0;
   background: var(--light-gray);
@@ -28,11 +34,12 @@
   text-align: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   height: 100%;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .actionCard:hover {
   transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
 .actionCard i {
@@ -53,6 +60,9 @@
   margin-bottom: 1.5rem;
 }
 
+/* ===========================
+   MAP SECTION
+=========================== */
 .mapContainer {
   background: white;
   border-radius: 15px;
@@ -69,6 +79,8 @@
   justify-content: center;
   background: linear-gradient(45deg, #f8f9fa, #e9ecef);
   color: #6c757d;
+  padding: 1rem;
+  text-align: center;
 }
 
 .mapPlaceholder i {
@@ -82,6 +94,9 @@
   margin-bottom: 0.5rem;
 }
 
+/* ===========================
+   OUTAGE LIST
+=========================== */
 .outageList {
   background: white;
   padding: 2rem;
@@ -112,8 +127,8 @@
 
 .outageHeader {
   display: flex;
-  justify-content: between;
-  align-items: start;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 0.5rem;
 }
 
@@ -124,21 +139,34 @@
   flex: 1;
 }
 
+/* STATUS BADGES */
 .InProgress {
   background: #fff3cd;
   color: #856404;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.85rem;
 }
 
 .Investigating {
   background: #cce7ff;
   color: #004085;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.85rem;
 }
 
 .Restored {
   background: #d4edda;
   color: #155724;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.85rem;
 }
 
+/* ===========================
+   SAFETY TIPS
+=========================== */
 .safetyTips {
   background: var(--light-gray);
 }
@@ -149,11 +177,12 @@
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .tipCard:hover {
   transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
 .tipCard i {
@@ -174,8 +203,23 @@
   line-height: 1.6;
 }
 
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
 @media (max-width: 768px) {
   .outageHero h1 {
     font-size: 2.5rem;
+  }
+
+  .mapContainer {
+    height: 350px;
+  }
+
+  .actionCard {
+    padding: 1.5rem;
+  }
+
+  .tipCard {
+    padding: 1.5rem;
   }
 }

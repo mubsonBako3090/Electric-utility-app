@@ -7,10 +7,22 @@ import { handleError, successResponse } from '@/lib/utils';
 export const POST = withDatabase(async (request) => {
   try {
     const body = await request.json();
-    const { firstName, lastName, email, password, phone, address, customerType } = body;
+
+    const { 
+      firstName,
+      lastName,
+      email,
+      password,
+      phone,
+      streetAddress,
+      city,
+      state,
+      zipCode,
+      customerType
+    } = body;
 
     // Validation
-    if (!firstName || !lastName || !email || !password || !phone || !address) {
+    if (!firstName || !lastName || !email || !password || !phone || !streetAddress || !city || !state || !zipCode) {
       return NextResponse.json(
         { success: false, error: 'All fields are required' },
         { status: 400 }
@@ -24,7 +36,7 @@ export const POST = withDatabase(async (request) => {
       );
     }
 
-    // Check if user already exists
+    // Check if user exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
@@ -41,22 +53,19 @@ export const POST = withDatabase(async (request) => {
       password,
       phone: phone.trim(),
       address: {
-        street: address.street?.trim() || '',
-        city: address.city?.trim() || '',
-        state: address.state?.trim() || '',
-        zipCode: address.zipCode?.trim() || '',
-        country: address.country?.trim() || 'US'
+        street: streetAddress.trim(),
+        city: city.trim(),
+        state: state.trim(),
+        zipCode: zipCode.trim(),
+        country: 'NG'
       },
       customerType: customerType || 'residential'
     });
 
-    // Generate token
     const token = generateToken(user._id);
 
-    // Update last login
     await user.updateLastLogin();
 
-    // Create response with user data (excluding password)
     const userResponse = {
       id: user._id,
       firstName: user.firstName,
@@ -75,18 +84,16 @@ export const POST = withDatabase(async (request) => {
       successResponse({ user: userResponse }, 'Registration successful')
     );
 
-    // Set cookie
     setTokenCookie(response, token);
 
     return response;
 
   } catch (error) {
     console.error('Registration error:', error);
-    
     const errorData = handleError(error);
     return NextResponse.json(
       { success: false, error: errorData.error, details: errorData.details },
       { status: 400 }
-    );
-  }
+    );
+  }
 });

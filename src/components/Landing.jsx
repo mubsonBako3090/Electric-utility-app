@@ -6,7 +6,7 @@ import ServiceCard from "@/components/ServiceCard";
 import Lightbox from "@/components/LightBox";
 import styles from "@/styles/Home.module.css";
 import Header from "./ui/Header";
-
+import Link from 'next/link';
 export default function LandingPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState("");
@@ -151,9 +151,17 @@ export default function LandingPage() {
                 solutions.
               </p>
             </div>
-            <div className="col-lg-4 text-lg-end" data-aos="fade-left">
-              <button className="btn btn-light btn-lg">Contact Us Today</button>
-            </div>
+
+
+<div className="col-lg-4 text-lg-end" data-aos="fade-left">
+  <Link href="/contact">
+    <button className="btn btn-light btn-lg">
+      Contact Us Today
+    </button>
+  </Link>
+</div>
+
+
           </div>
         </div>
       </section>

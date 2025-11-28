@@ -1,10 +1,9 @@
 "use client";
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Footer from '@/components/Footer';
 import styles from '@/styles/OutageMap.module.css';
 import Header from '@/components/ui/Header';
-
+import Link from 'next/link';
 export default function OutageMapPage() {
   const [outages, setOutages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -62,7 +61,9 @@ export default function OutageMapPage() {
                 <i className="bi bi-phone"></i>
                 <h4>Text Updates</h4>
                 <p>Get outage alerts via SMS</p>
+                <Link href="/LoginForm">  
                 <button className="btn btn-outline-primary">Sign Up</button>
+                </Link> 
               </div>
             </div>
             <div className="col-md-4 mb-3" data-aos="fade-up" data-aos-delay="200">
@@ -144,7 +145,6 @@ export default function OutageMapPage() {
         </div>
       </section>
 
-      <Footer />
     </>
   );
 }

@@ -57,7 +57,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <>
-        <Navbar />
+        <Header />
         <div className={styles.loadingContainer}>
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>
