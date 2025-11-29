@@ -23,7 +23,7 @@ export default function Header() {
   }, []);
 
   const handleLogout = async () => {
-    await logout();
+    await logout();   // <-- uses AuthContext logout()
     setIsMenuOpen(false);
   };
 
@@ -41,12 +41,13 @@ export default function Header() {
     <>
       <nav className={`navbar navbar-expand-lg navbar-light fixed-top ${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
         <div className="container">
+
           {/* Brand Logo */}
           <Link href="/" className={`navbar-brand ${styles.brand}`}>
             <i className="bi bi-lightning-charge-fill me-2"></i>
             PowerGrid Utilities
           </Link>
-          
+
           {/* Mobile Menu Toggle */}
           <button 
             className={`navbar-toggler ${styles.navbarToggler}`}
@@ -60,36 +61,39 @@ export default function Header() {
           {/* Navigation Menu */}
           <div className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`}>
             <ul className="navbar-nav ms-auto">
-              {/* Public Navigation Links */}
+
               <li className="nav-item">
                 <Link href="/" className={`nav-link ${styles.navLink}`} onClick={() => setIsMenuOpen(false)}>
                   Home
                 </Link>
               </li>
+
               <li className="nav-item">
                 <Link href="/about" className={`nav-link ${styles.navLink}`} onClick={() => setIsMenuOpen(false)}>
                   About
                 </Link>
               </li>
+
               <li className="nav-item">
                 <Link href="/services" className={`nav-link ${styles.navLink}`} onClick={() => setIsMenuOpen(false)}>
                   Services
                 </Link>
               </li>
+
               <li className="nav-item">
                 <Link href="/outagemap" className={`nav-link ${styles.navLink}`} onClick={() => setIsMenuOpen(false)}>
                   Outage Map
                 </Link>
               </li>
+
               <li className="nav-item">
                 <Link href="/contact" className={`nav-link ${styles.navLink}`} onClick={() => setIsMenuOpen(false)}>
                   Contact
                 </Link>
               </li>
-              
-              {/* Authentication Section */}
+
+              {/* AUTH SECTION */}
               {isAuthenticated ? (
-                /* User is logged in - show user menu */
                 <li className="nav-item dropdown">
                   <a 
                     className={`nav-link dropdown-toggle ${styles.navLink} ${styles.userDropdown}`} 
@@ -101,6 +105,7 @@ export default function Header() {
                     <i className="bi bi-person-circle me-1"></i>
                     {user?.firstName}
                   </a>
+
                   <ul className={`dropdown-menu ${styles.dropdownMenu}`}>
                     <li>
                       <Link href="/dashboard" className="dropdown-item" onClick={() => setIsMenuOpen(false)}>
@@ -108,22 +113,26 @@ export default function Header() {
                         Dashboard
                       </Link>
                     </li>
+
                     <li>
                       <Link href="/profile" className="dropdown-item" onClick={() => setIsMenuOpen(false)}>
                         <i className="bi bi-person me-2"></i>
                         My Profile
                       </Link>
                     </li>
+
                     <li>
                       <Link href="/bills" className="dropdown-item" onClick={() => setIsMenuOpen(false)}>
                         <i className="bi bi-receipt me-2"></i>
                         My Bills
                       </Link>
                     </li>
+
                     <li><hr className="dropdown-divider" /></li>
+
                     <li>
                       <button 
-                        className="dropdown-item text-danger" 
+                        className="dropdown-item text-danger"
                         onClick={handleLogout}
                       >
                         <i className="bi bi-box-arrow-right me-2"></i>
@@ -133,7 +142,6 @@ export default function Header() {
                   </ul>
                 </li>
               ) : (
-                /* User is not logged in - show auth buttons */
                 <li className="nav-item">
                   <div className={styles.authButtons}>
                     <button 
@@ -143,6 +151,7 @@ export default function Header() {
                       <i className="bi bi-person-circle me-2"></i>
                       Login
                     </button>
+
                     <button 
                       className={`btn btn-primary ${styles.authBtn}`}
                       onClick={handleRegister}
@@ -153,12 +162,12 @@ export default function Header() {
                   </div>
                 </li>
               )}
+
             </ul>
           </div>
         </div>
       </nav>
 
-      {/* Auth Modal */}
       <AuthModalComponent />
     </>
   );

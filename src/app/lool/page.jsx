@@ -4,38 +4,53 @@ import { useAuth } from '@/contexts/AuthContext';
 import Footer from '@/components/Footer';
 import styles from '@/styles/Dashboard.module.css';
 import Header from '@/components/ui/Header';
-
-export default function Dashboard() {
-  const { user, isAuthenticated, loading, logout } = useAuth();
+export default function loolPage() {
+  const { user, isAuthenticated, loading } = useAuth();
   const [dashboardData, setDashboardData] = useState(null);
 
   useEffect(() => {
     if (isAuthenticated) {
+      // Fetch dashboard data
       fetchDashboardData();
     }
   }, [isAuthenticated]);
 
   const fetchDashboardData = async () => {
     try {
+      // Simulate API call
       const mockData = {
-        currentBill: { amount: 125.75, dueDate: '2024-01-15', status: 'pending' },
-        usage: { current: 450, previous: 420, unit: 'kWh' },
-        outages: { reported: 2, resolved: 1 },
+        currentBill: {
+          amount: 125.75,
+          dueDate: '2024-01-15',
+          status: 'pending'
+        },
+        usage: {
+          current: 450,
+          previous: 420,
+          unit: 'kWh'
+        },
+        outages: {
+          reported: 2,
+          resolved: 1
+        },
         notifications: [
-          { id: 1, type: 'info', message: 'Scheduled maintenance on Jan 20th', date: '2024-01-10' },
-          { id: 2, type: 'warning', message: 'Your bill is due in 5 days', date: '2024-01-10' },
-        ],
+          {
+            id: 1,
+            type: 'info',
+            message: 'Scheduled maintenance on Jan 20th',
+            date: '2024-01-10'
+          },
+          {
+            id: 2,
+            type: 'warning',
+            message: 'Your bill is due in 5 days',
+            date: '2024-01-10'
+          }
+        ]
       };
       setDashboardData(mockData);
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error);
-    }
-  };
-
-  const handleLogout = async () => {
-    const result = await logout();
-    if (!result.success) {
-      alert('Logout failed. Please try again.');
     }
   };
 
@@ -91,14 +106,6 @@ export default function Dashboard() {
                     Active
                   </span>
                 </div>
-                {/* Logout Button */}
-                <button
-                  className="btn btn-danger mt-3"
-                  onClick={handleLogout}
-                >
-                  <i className="bi bi-box-arrow-right me-2"></i>
-                  Logout
-                </button>
               </div>
             </div>
           </div>
@@ -109,7 +116,6 @@ export default function Dashboard() {
           <section className="section-padding">
             <div className="container">
               <div className="row">
-                {/* Current Bill */}
                 <div className="col-md-3 mb-4">
                   <div className={styles.statCard}>
                     <div className={styles.statIcon}>
@@ -122,8 +128,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
-
-                {/* Energy Usage */}
+                
                 <div className="col-md-3 mb-4">
                   <div className={styles.statCard}>
                     <div className={styles.statIcon}>
@@ -133,13 +138,13 @@ export default function Dashboard() {
                       <h3>{dashboardData.usage.current} {dashboardData.usage.unit}</h3>
                       <p>Energy Usage</p>
                       <small>
-                        {dashboardData.usage.current > dashboardData.usage.previous ? '↑' : '↓'} from last month
+                        {dashboardData.usage.current > dashboardData.usage.previous ? '↑' : '↓'} 
+                        from last month
                       </small>
                     </div>
                   </div>
                 </div>
-
-                {/* Outages */}
+                
                 <div className="col-md-3 mb-4">
                   <div className={styles.statCard}>
                     <div className={styles.statIcon}>
@@ -152,8 +157,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
-
-                {/* Notifications */}
+                
                 <div className="col-md-3 mb-4">
                   <div className={styles.statCard}>
                     <div className={styles.statIcon}>
@@ -173,7 +177,46 @@ export default function Dashboard() {
 
         {/* Quick Actions */}
         <section className={`section-padding bg-light ${styles.actionsSection}`}>
-          {/* ...existing quick action cards... */}
+          <div className="container">
+            <h2 className="section-title text-center mb-5">Quick Actions</h2>
+            <div className="row">
+              <div className="col-md-3 mb-3">
+                <div className={styles.actionCard}>
+                  <i className="bi bi-credit-card"></i>
+                  <h4>Pay Bill</h4>
+                  <p>Make a payment securely online</p>
+                  <button className="btn btn-primary w-100">Pay Now</button>
+                </div>
+              </div>
+              
+              <div className="col-md-3 mb-3">
+                <div className={styles.actionCard}>
+                  <i className="bi bi-graph-up"></i>
+                  <h4>Usage Report</h4>
+                  <p>View your energy consumption</p>
+                  <button className="btn btn-outline-primary w-100">View Report</button>
+                </div>
+              </div>
+              
+              <div className="col-md-3 mb-3">
+                <div className={styles.actionCard}>
+                  <i className="bi bi-tools"></i>
+                  <h4>Service Request</h4>
+                  <p>Request maintenance or repairs</p>
+                  <button className="btn btn-outline-primary w-100">Request Service</button>
+                </div>
+              </div>
+              
+              <div className="col-md-3 mb-3">
+                <div className={styles.actionCard}>
+                  <i className="bi bi-person-gear"></i>
+                  <h4>Profile Settings</h4>
+                  <p>Update your account information</p>
+                  <button className="btn btn-outline-primary w-100">Edit Profile</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Notifications */}
@@ -203,3 +246,4 @@ export default function Dashboard() {
     </>
   );
 }
+                    

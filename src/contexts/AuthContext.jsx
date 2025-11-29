@@ -12,10 +12,13 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
+  // Derived state
+  const isAuthenticated = !!user;
+
   const openAuth = useCallback(() => setShowAuthModal(true), []);
   const closeAuth = useCallback(() => setShowAuthModal(false), []);
 
-  // LOGIN FUNCTION
+  // LOGIN
   const login = async (email, password) => {
     try {
       const res = await fetch("/api/auth/login", {
@@ -26,13 +29,11 @@ export const AuthProvider = ({ children }) => {
       });
 
       const data = await res.json();
-
       if (!res.ok) return { success: false, error: data.error || "Login failed" };
 
-      setUser(data.user);
+      setUser(data.data.user);
       closeAuth();
-      router.push("/dashboard"); // ✅ Redirect after login
-
+      router.push("/dashboard");
       return { success: true };
     } catch (err) {
       console.error("Login error:", err);
@@ -40,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // REGISTER FUNCTION
+  // REGISTER
   const register = async (userData) => {
     try {
       const res = await fetch("/api/auth/register", {
@@ -50,13 +51,11 @@ export const AuthProvider = ({ children }) => {
       });
 
       const data = await res.json();
-
       if (!res.ok) return { success: false, error: data.error || "Registration failed" };
 
-      setUser(data.user);
+      setUser(data.data.user);
       closeAuth();
-      router.push("/dashboard"); // ✅ Redirect after register
-
+      router.push("/dashboard");
       return { success: true };
     } catch (err) {
       console.error("Register error:", err);
@@ -64,30 +63,51 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // FETCH USER SESSION WHEN APP LOADS
+  // LOGOUT  ✅ ADDED
+  const logout = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      setUser(null);
+      router.push("/");
+
+      return { success: true };
+    } catch (error) {
+      console.error("Logout error:", error);
+      return { success: false };
+    }
+  };
+
+  // FETCH USER SESSION
   useEffect(() => {
-    let mounted = true;
+    let isMounted = true;
 
     const fetchUser = async () => {
       try {
-        const res = await fetch("/api/auth/profile", { credentials: "include" });
+        const res = await fetch("/api/auth/profile", {
+          credentials: "include",
+        });
 
         if (!res.ok) {
-          if (mounted) setUser(null);
+          if (isMounted) setUser(null);
           return;
         }
 
         const data = await res.json();
-        if (mounted) setUser(data?.data?.user || null);
+        if (isMounted) setUser(data?.data?.user || null);
+
       } catch (err) {
         console.error("Profile fetch error:", err);
       } finally {
-        if (mounted) setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchUser();
-    return () => { mounted = false; };
+    return () => (isMounted = false);
   }, []);
 
   return (
@@ -95,11 +115,13 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         loading,
+        isAuthenticated,
         showAuthModal,
         openAuth,
         closeAuth,
         login,
         register,
+        logout,      // ✅ ADDED EXPORT
         setUser,
       }}
     >
