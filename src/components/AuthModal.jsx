@@ -1,28 +1,57 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Login from './Login';
 import Register from './Register';
 import styles from '@/styles/Login.module.css';
 import { useAuth } from '@/contexts/AuthContext';
 
-export default function AuthModal() {
-  const { showAuthModal, closeAuth } = useAuth();
+export const useAuthModal = () => {
   const [mode, setMode] = useState('login');
+  const { showAuthModal } = useAuth(); // your existing AuthContext
+  const [isOpen, setIsOpen] = useState(false);
 
-  if (!showAuthModal) return null;
+  // Sync isOpen with showAuthModal
+  useEffect(() => {
+    setIsOpen(showAuthModal);
+  }, [showAuthModal]);
 
-  return (
-    <div className={styles.authModal}>
-      <div className={styles.authContent}>
-        <button className={styles.closeButton} onClick={closeAuth}>
-          <i className="bi bi-x-lg"></i>
-        </button>
-        {mode === 'login' ? (
-          <Login onSwitchToRegister={() => setMode('register')} onClose={closeAuth} />
-        ) : (
-          <Register onSwitchToLogin={() => setMode('login')} onClose={closeAuth} />
-        )}
+  const openLogin = () => {
+    setMode('login');
+    setIsOpen(true);
+  };
+
+  const openRegister = () => {
+    setMode('register');
+    setIsOpen(true);
+  };
+
+  const closeModal = () => setIsOpen(false);
+
+  const AuthModalComponent = () => {
+    if (!isOpen) return null;
+
+    return (
+      <div className={styles.authModal}>
+        <div className={styles.authContent}>
+          <button className={styles.closeButton} onClick={closeModal}>
+            <i className="bi bi-x-lg"></i>
+          </button>
+
+          {mode === 'login' ? (
+            <Login
+              onSwitchToRegister={() => setMode('register')}
+              onClose={closeModal} // pass close to login
+            />
+          ) : (
+            <Register
+              onSwitchToLogin={() => setMode('login')}
+              onClose={closeModal} // pass close to register
+            />
+          )}
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  };
+
+  return { openLogin, openRegister, AuthModalComponent };
+};

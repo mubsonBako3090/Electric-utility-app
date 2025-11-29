@@ -24,9 +24,10 @@ export default function Footer() {
 								<a href="/" className={styles.socialLink}>
 									<i className="bi bi-twitter"></i>
 								</a>
-								<a href="/https://ng.linkedin.com/in/mubarak-adam-bako-a86583311" className={styles.socialLink}>
-									<i className="bi bi-linkedin"></i>
-								</a>
+								<a href="https://ng.linkedin.com/in/mubarak-adam-bako-a86583311" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+                                   <i className="bi bi-linkedin"></i>
+                                </a>
+
 								<a href="#" className={styles.socialLink}>
 									<i className="bi bi-instagram"></i>
 								</a>
