@@ -7,6 +7,8 @@ import Lightbox from "@/components/LightBox";
 import styles from "@/styles/Home.module.css";
 import Header from "./ui/Header";
 import Link from 'next/link';
+import Footer from "./Footer";
+
 export default function LandingPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState("");
@@ -173,6 +175,7 @@ export default function LandingPage() {
           onClose={() => setLightboxOpen(false)}
         />
       )}
+      <Footer />
     </>
   );
 }

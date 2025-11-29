@@ -21,15 +21,19 @@ export default function Footer() {
 								<a href="#" className={styles.socialLink}>
 									<i className="bi bi-facebook"></i>
 								</a>
-								<a href="#" className={styles.socialLink}>
+								<a href="/" className={styles.socialLink}>
 									<i className="bi bi-twitter"></i>
 								</a>
-								<a href="#" className={styles.socialLink}>
+								<a href="/https://ng.linkedin.com/in/mubarak-adam-bako-a86583311" className={styles.socialLink}>
 									<i className="bi bi-linkedin"></i>
 								</a>
 								<a href="#" className={styles.socialLink}>
 									<i className="bi bi-instagram"></i>
 								</a>
+								<a href="mailto:mubarakadambako@gmail.com" className={styles.socialLink}>
+                                <i className="bi bi-envelope"></i> 
+                              </a>
+
 							</div>
 						</div>
 					</div>
@@ -40,7 +44,7 @@ export default function Footer() {
 							<li><Link href="/">Home</Link></li>
 							<li><Link href="/about">About</Link></li>
 							<li><Link href="/services">Services</Link></li>
-							<li><Link href="/outage-map">Outage Map</Link></li>
+							<li><Link href="/outagemap">Outage Map</Link></li>
 							<li><Link href="/contact">Contact</Link></li>
 						</ul>
 					</div>
@@ -88,10 +92,11 @@ export default function Footer() {
 						</div>
 						<div className="col-md-6">
 							<div className={styles.legalLinks}>
-								<a href="#">Privacy Policy</a>
-								<a href="#">Terms of Service</a>
-								<a href="#">Accessibility</a>
-							</div>
+                             <Link href="/privacy-policy">Privacy Policy</Link>
+                             <Link href="/terms-of-service">Terms of Service</Link>
+                            <Link href="/accessibility">Accessibility</Link>
+                          </div>
+
 						</div>
 					</div>
 				</div>
