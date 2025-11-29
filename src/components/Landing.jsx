@@ -68,9 +68,10 @@ export default function LandingPage() {
                 <button className="btn btn-primary btn-lg me-3">
                   Report Outage
                 </button>
-                <button className="btn btn-outline-primary btn-lg">
-                  Pay Bill Online
+                <button className={`btn btn-lg ${styles.payBillBtn}`}>
+                 Pay Bill Online
                 </button>
+
               </div>
             </div>
             <div className="col-lg-6" data-aos="fade-left">

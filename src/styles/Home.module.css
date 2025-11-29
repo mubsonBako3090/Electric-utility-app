@@ -107,10 +107,24 @@
     font-size: 1.1rem;
   }
 }
+
 .ourWorkTitle {
   color: #caa053; /* blue */
 }
 
 .ourWorkSubtitle {
-  color: #eee8e8; /* gray */
+  color: #741717; /* gray */
+}
+
+/* ---------------------------- */
+/* Pay Bill Button Custom Style */
+.payBillBtn {
+  background-color: #28a745 !important; /* green background */
+  color: white !important;               /* white text */
+  border-color: #28a745 !important;      /* match border */
+}
+
+.payBillBtn:hover {
+  background-color: #218838 !important;  /* darker green on hover */
+  border-color: #1e7e34 !important;
 }
