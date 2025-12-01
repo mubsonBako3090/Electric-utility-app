@@ -2,15 +2,14 @@
 import { useState, useEffect } from 'react';
 import Login from './Login';
 import Register from './Register';
-import styles from '@/styles/Login.module.css';
 import { useAuth } from '@/contexts/AuthContext';
 
 export const useAuthModal = () => {
   const [mode, setMode] = useState('login');
-  const { showAuthModal } = useAuth(); // your existing AuthContext
+  const { showAuthModal } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Sync isOpen with showAuthModal
+  // Sync isOpen with AuthContext
   useEffect(() => {
     setIsOpen(showAuthModal);
   }, [showAuthModal]);
@@ -30,26 +29,11 @@ export const useAuthModal = () => {
   const AuthModalComponent = () => {
     if (!isOpen) return null;
 
-    return (
-      <div className={styles.authModal}>
-        <div className={styles.authContent}>
-          <button className={styles.closeButton} onClick={closeModal}>
-            <i className="bi bi-x-lg"></i>
-          </button>
-
-          {mode === 'login' ? (
-            <Login
-              onSwitchToRegister={() => setMode('register')}
-              onClose={closeModal} // pass close to login
-            />
-          ) : (
-            <Register
-              onSwitchToLogin={() => setMode('login')}
-              onClose={closeModal} // pass close to register
-            />
-          )}
-        </div>
-      </div>
+    // Only render the form; forms handle overlay & close
+    return mode === 'login' ? (
+      <Login onSwitchToRegister={() => setMode('register')} onClose={closeModal} />
+    ) : (
+      <Register onSwitchToLogin={() => setMode('login')} onClose={closeModal} />
     );
   };
 

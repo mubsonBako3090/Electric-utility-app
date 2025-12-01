@@ -32,33 +32,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Phone number is required'],
     validate: {
-      validator: function(v) {
-        return /^\+?[\d\s-()]{10,}$/.test(v);
+      validator: function (v) {
+        return /^\+?\d{7,15}$/.test(v.replace(/\s|-/g, ''));
       },
       message: 'Please provide a valid phone number'
     }
   },
   address: {
-    street: { 
-      type: String, 
-      required: [true, 'Street address is required'] 
-    },
-    city: { 
-      type: String, 
-      required: [true, 'City is required'] 
-    },
-    state: { 
-      type: String, 
-      required: [true, 'State is required'] 
-    },
-    zipCode: { 
-      type: String, 
-      required: [true, 'ZIP code is required'] 
-    },
-    country: { 
-      type: String, 
-      default: 'US' 
-    }
+    street: { type: String, required: [true, 'Street address is required'] },
+    city: { type: String, required: [true, 'City is required'] },
+    state: { type: String, required: [true, 'State is required'] },
+    zipCode: { type: String, required: [true, 'ZIP code is required'] },
+    country: { type: String, default: 'US' }
   },
   accountNumber: {
     type: String,
@@ -96,15 +81,14 @@ const userSchema = new mongoose.Schema({
     smsNotifications: { type: Boolean, default: false },
     paperlessBilling: { type: Boolean, default: false }
   }
-}, {
-  timestamps: true
-});
+}, { timestamps: true });
 
-// Generate account number and meter number before saving
-userSchema.pre('save', function(next) {
+
+// Generate account & meter number
+userSchema.pre('save', function (next) {
   if (this.isNew) {
     if (!this.accountNumber) {
-      this.accountNumber = 'ACC' + Date.now().toString().slice(-8);
+      this.accountNumber = 'ACC' + Math.floor(Date.now() / 10);
     }
     if (!this.meterNumber) {
       this.meterNumber = 'MTR' + Math.random().toString(36).substr(2, 8).toUpperCase();
@@ -114,34 +98,36 @@ userSchema.pre('save', function(next) {
 });
 
 // Hash password before saving
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  
+
+  // Always lowercase email
+  if (this.email) this.email = this.email.toLowerCase();
+
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
-// Compare password method
-userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
-  return await bcrypt.compare(candidatePassword, userPassword);
+// Compare password
+userSchema.methods.correctPassword = async function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
 };
 
 // Update last login
-userSchema.methods.updateLastLogin = function() {
+userSchema.methods.updateLastLogin = function () {
   this.lastLogin = new Date();
   return this.save({ validateBeforeSave: false });
 };
 
-// Get full name virtual
-userSchema.virtual('fullName').get(function() {
+// Full name virtual
+userSchema.virtual('fullName').get(function () {
   return `${this.firstName} ${this.lastName}`;
 });
-
 
 // Transform output
 userSchema.set('toJSON', {
   virtuals: true,
-  transform: function(doc, ret) {
+  transform: function (doc, ret) {
     delete ret.password;
     delete ret.__v;
     return ret;

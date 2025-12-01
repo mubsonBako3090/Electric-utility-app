@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from "react";
 import Head from "next/head";
@@ -8,10 +8,22 @@ import styles from "@/styles/Home.module.css";
 import Header from "./ui/Header";
 import Link from 'next/link';
 import Footer from "./Footer";
+import PaymentForm from '@/components/PaymentForm';
 
 export default function LandingPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState("");
+
+  // ✅ Payment modal state
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
+
+  const openPaymentForm = () => setShowPaymentForm(true);
+  const closePaymentForm = () => setShowPaymentForm(false);
+
+  const handlePay = (payment) => {
+    console.log('Payment received:', payment);
+    closePaymentForm(); // closes modal after payment
+  };
 
   const services = [
     {
@@ -40,15 +52,10 @@ export default function LandingPage() {
     <>
       <Head>
         <title>PowerGrid Utilities - Reliable Energy Solutions</title>
-        <meta
-          name="description"
-          content="Your trusted electric utility provider"
-        />
+        <meta name="description" content="Your trusted electric utility provider" />
       </Head>
 
-
       <Header />
-
 
       {/* Hero Section */}
       <section className={styles.hero}>
@@ -61,17 +68,20 @@ export default function LandingPage() {
               </h1>
               <p className={styles.heroSubtitle}>
                 Providing sustainable and reliable electricity to over 2 million
-                customers across the region. Your trusted partner in energy
-                solutions.
+                customers across the region. Your trusted partner in energy solutions.
               </p>
               <div className={styles.heroButtons}>
                 <button className="btn btn-primary btn-lg me-3">
                   Report Outage
                 </button>
-                <button className={`btn btn-lg ${styles.payBillBtn}`}>
-                 Pay Bill Online
-                </button>
 
+                {/* ✅ Pay Bill Online button */}
+                <button
+                  className={`btn btn-lg ${styles.payBillBtn}`}
+                  onClick={openPaymentForm} // opens PaymentForm modal
+                >
+                  Pay Bill Online
+                </button>
               </div>
             </div>
             <div className="col-lg-6" data-aos="fade-left">
@@ -99,12 +109,7 @@ export default function LandingPage() {
           </div>
           <div className="row">
             {services.map((service, index) => (
-              <div
-                key={index}
-                className="col-md-4"
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
-              >
+              <div key={index} className="col-md-4" data-aos="fade-up" data-aos-delay={index * 100}>
                 <ServiceCard {...service} />
               </div>
             ))}
@@ -150,32 +155,31 @@ export default function LandingPage() {
             <div className="col-lg-8" data-aos="fade-right">
               <h3>Ready to Get Started?</h3>
               <p>
-                Join thousands of satisfied customers with reliable power
-                solutions.
+                Join thousands of satisfied customers with reliable power solutions.
               </p>
             </div>
 
-
-<div className="col-lg-4 text-lg-end" data-aos="fade-left">
-  <Link href="/contact">
-    <button className="btn btn-light btn-lg">
-      Contact Us Today
-    </button>
-  </Link>
-</div>
-
-
+            <div className="col-lg-4 text-lg-end" data-aos="fade-left">
+              <Link href="/contact">
+                <button className="btn btn-light btn-lg">
+                  Contact Us Today
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-
-      {lightboxOpen && (
-        <Lightbox
-          image={lightboxImage}
-          onClose={() => setLightboxOpen(false)}
-        />
+      {/* ✅ Render PaymentForm modal */}
+      {showPaymentForm && (
+        <PaymentForm onPay={handlePay} onClose={closePaymentForm} />
       )}
+
+      {/* Lightbox */}
+      {lightboxOpen && (
+        <Lightbox image={lightboxImage} onClose={() => setLightboxOpen(false)} />
+      )}
+
       <Footer />
     </>
   );

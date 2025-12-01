@@ -1,24 +1,37 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import Footer from '@/components/Footer';
 import styles from '@/styles/Dashboard.module.css';
 import Header from '@/components/ui/Header';
+import PaymentForm from '@/components/PaymentForm';
+import BillList from '@/components/BillList';
 
 export default function Dashboard() {
   const { user, isAuthenticated, loading, logout } = useAuth();
   const [dashboardData, setDashboardData] = useState(null);
 
+  // Payment state
+  const [payments, setPayments] = useState([]);
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
+
+  const handlePay = (payment) => {
+    setPayments((prev) => [...prev, payment]);
+    setShowPaymentForm(false); // close form after payment
+  };
+
+  const openPaymentForm = () => setShowPaymentForm(true);
+  const closePaymentForm = () => setShowPaymentForm(false);
+
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchDashboardData();
-    }
+    if (isAuthenticated) fetchDashboardData();
   }, [isAuthenticated]);
 
   const fetchDashboardData = async () => {
     try {
       const mockData = {
-        currentBill: { amount: 125.75, dueDate: '2024-01-15', status: 'pending' },
+        currentBill: { amount: 125, dueDate: '2024-01-15', status: 'pending' },
         usage: { current: 450, previous: 420, unit: 'kWh' },
         outages: { reported: 2, resolved: 1 },
         notifications: [
@@ -72,7 +85,7 @@ export default function Dashboard() {
   return (
     <>
       <Header />
-      
+
       <div className={styles.dashboard}>
         {/* Welcome Section */}
         <section className={styles.welcomeSection}>
@@ -91,7 +104,6 @@ export default function Dashboard() {
                     Active
                   </span>
                 </div>
-                {/* Logout Button */}
                 <button
                   className="btn btn-danger mt-3"
                   onClick={handleLogout}
@@ -166,37 +178,30 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </section>
         )}
 
-        {/* Quick Actions */}
-        <section className={`section-padding bg-light ${styles.actionsSection}`}>
-          {/* ...existing quick action cards... */}
+        {/* ⭐ PAYMENT SECTION */}
+        <section className="section-padding">
+          <div className="container">
+            <h2 className="section-title mb-4">Make a Payment</h2>
+
+            {/* Button to open payment form */}
+            <button className="btn btn-primary mb-3" onClick={openPaymentForm}>
+              <i className="bi bi-credit-card me-2"></i> Pay Now
+            </button>
+
+            {/* Conditionally render PaymentForm */}
+            {showPaymentForm && <PaymentForm onPay={handlePay} onClose={closePaymentForm} />}
+
+            {/* List of Payments */}
+            <BillList bills={payments} />
+          </div>
         </section>
 
-        {/* Notifications */}
-        {dashboardData && dashboardData.notifications.length > 0 && (
-          <section className="section-padding">
-            <div className="container">
-              <h2 className="section-title mb-4">Recent Notifications</h2>
-              <div className={styles.notifications}>
-                {dashboardData.notifications.map(notification => (
-                  <div key={notification.id} className={styles.notificationItem}>
-                    <div className={styles.notificationIcon}>
-                      <i className={`bi bi-${notification.type === 'warning' ? 'exclamation-triangle' : 'info-circle'}`}></i>
-                    </div>
-                    <div className={styles.notificationContent}>
-                      <p>{notification.message}</p>
-                      <small>{new Date(notification.date).toLocaleDateString()}</small>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
       </div>
 
       <Footer />

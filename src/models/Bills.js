@@ -25,12 +25,12 @@ const billSchema = new mongoose.Schema({
   },
   energyUsage: {
     type: Number,
-    required: true, // in kWh
+    required: true,
     min: 0
   },
   rate: {
     type: Number,
-    required: true, // $ per kWh
+    required: true,
     default: 0.15
   },
   energyCharge: {
@@ -71,12 +71,12 @@ const billSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ['credit_card', 'debit_card', 'bank_transfer', 'cash', null],
+    enum: ['credit_card', 'debit_card', 'bank_transfer', 'cash'],
     default: null
   },
   meterReadings: {
-    previous: { type: Number, required: true },
-    current: { type: Number, required: true }
+    previous: { type: Number, required: true, min: 0 },
+    current: { type: Number, required: true, min: 0 }
   },
   notes: {
     type: String,
@@ -86,9 +86,16 @@ const billSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Calculate total amount before saving
+// Auto calculate charges before saving
 billSchema.pre('save', function(next) {
-  if (this.isModified('energyUsage') || this.isModified('rate') || this.isModified('serviceFee') || this.isModified('taxes')) {
+  if (
+    this.isModified('energyUsage') ||
+    this.isModified('rate') ||
+    this.isModified('serviceFee') ||
+    this.isModified('taxes') ||
+    this.isModified('payments') ||
+    this.isModified('previousBalance')
+  ) {
     this.energyCharge = parseFloat((this.energyUsage * this.rate).toFixed(2));
     this.totalAmount = parseFloat((this.energyCharge + this.serviceFee + this.taxes).toFixed(2));
     this.amountDue = parseFloat((this.totalAmount + this.previousBalance - this.payments).toFixed(2));
@@ -96,20 +103,20 @@ billSchema.pre('save', function(next) {
   next();
 });
 
-// Static method to get user's bills
+// Find bills by user
 billSchema.statics.findByUser = function(userId) {
   return this.find({ user: userId }).sort({ dueDate: -1 });
 };
 
-// Static method to get overdue bills
+// Find overdue bills
 billSchema.statics.findOverdue = function() {
-  return this.find({ 
-    status: 'pending', 
-    dueDate: { $lt: new Date() } 
+  return this.find({
+    status: 'pending',
+    dueDate: { $lt: new Date() }
   });
 };
 
-// Instance method to mark as paid
+// Mark bill as paid
 billSchema.methods.markAsPaid = function(paymentMethod) {
   this.status = 'paid';
   this.paidAt = new Date();
@@ -117,22 +124,21 @@ billSchema.methods.markAsPaid = function(paymentMethod) {
   return this.save();
 };
 
-// Virtual for days overdue
+// Virtual: days overdue
 billSchema.virtual('daysOverdue').get(function() {
-  if (this.status !== 'pending' || new Date() <= this.dueDate) {
-    return 0;
-  }
+  if (this.status !== 'pending' || new Date() <= this.dueDate) return 0;
+
   const oneDay = 24 * 60 * 60 * 1000;
   return Math.floor((new Date() - this.dueDate) / oneDay);
 });
 
-// Virtual for billing period days
+// Virtual: billing days
 billSchema.virtual('billingDays').get(function() {
   const oneDay = 24 * 60 * 60 * 1000;
   return Math.round(Math.abs((this.billingPeriod.end - this.billingPeriod.start) / oneDay)) + 1;
 });
 
-// Transform output
+// Transform JSON output
 billSchema.set('toJSON', {
   virtuals: true,
   transform: function(doc, ret) {
@@ -143,4 +149,4 @@ billSchema.set('toJSON', {
   }
 });
 
-export default mongoose.models.Bill || mongoose.model('Bill', billSchema);
+export default mongoose.models.Bill || mongoose.model('Bill', billSchema);

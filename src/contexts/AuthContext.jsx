@@ -8,15 +8,38 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("user");
+      if (!storedUser) return null;
+
+      try {
+        return JSON.parse(storedUser);
+      } catch (err) {
+        console.error("Failed to parse user from localStorage:", err);
+        localStorage.removeItem("user"); // remove corrupted data
+        return null;
+      }
+    }
+    return null;
+  });
+
   const [loading, setLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  // Derived state
   const isAuthenticated = !!user;
 
   const openAuth = useCallback(() => setShowAuthModal(true), []);
   const closeAuth = useCallback(() => setShowAuthModal(false), []);
+
+  // Save user to localStorage whenever it changes
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [user]);
 
   // LOGIN
   const login = async (email, password) => {
@@ -63,7 +86,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // LOGOUT  ✅ ADDED
+  // LOGOUT
   const logout = async () => {
     try {
       await fetch("/api/auth/logout", {
@@ -73,7 +96,6 @@ export const AuthProvider = ({ children }) => {
 
       setUser(null);
       router.push("/");
-
       return { success: true };
     } catch (error) {
       console.error("Logout error:", error);
@@ -81,16 +103,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // FETCH USER SESSION
+  // FETCH USER SESSION from backend (optional, ensures server sync)
   useEffect(() => {
     let isMounted = true;
 
     const fetchUser = async () => {
       try {
-        const res = await fetch("/api/auth/profile", {
-          credentials: "include",
-        });
-
+        const res = await fetch("/api/auth/profile", { credentials: "include" });
         if (!res.ok) {
           if (isMounted) setUser(null);
           return;
@@ -121,7 +140,7 @@ export const AuthProvider = ({ children }) => {
         closeAuth,
         login,
         register,
-        logout,      // ✅ ADDED EXPORT
+        logout,
         setUser,
       }}
     >

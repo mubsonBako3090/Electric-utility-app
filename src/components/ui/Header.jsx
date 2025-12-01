@@ -11,6 +11,10 @@ export default function Header() {
   const { user, isAuthenticated, logout } = useAuth();
   const { openLogin, openRegister, AuthModalComponent } = useAuthModal();
 
+  // NEW: track if we are client-side to prevent hydration errors
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => setIsClient(true), []);
+
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
@@ -80,7 +84,7 @@ export default function Header() {
               </li>
 
               {/* Authentication Section */}
-              {isAuthenticated ? (
+              {isClient && (isAuthenticated ? (
                 <li className="nav-item dropdown">
                   <a 
                     className={`nav-link dropdown-toggle ${styles.navLink} ${styles.userDropdown}`} 
@@ -137,7 +141,7 @@ export default function Header() {
                     </button>
                   </div>
                 </li>
-              )}
+              ))}
 
             </ul>
           </div>
