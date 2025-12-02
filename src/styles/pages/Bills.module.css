@@ -1,13 +1,89 @@
-.loadingContainer { padding: 2rem; text-align: center; }
-.unauthorized { padding: 2rem; }
-.bills { padding: 1.5rem; }
-.billsHeader { margin-bottom: 1rem; }
-.billsSubtitle { color: #666; }
-.billSummary { font-size: 0.95rem; }
-.quickStats { margin-top: 1rem; }
-.statCard { display: flex; gap: 0.75rem; align-items: center; padding: 1rem; border-radius: 8px; border: 1px solid #eee; }
-.filterTabs { margin-bottom: 1rem; }
-.filterButtons button { margin-left: 0.5rem; }
-.emptyState { text-align: center; padding: 2rem; }
-.paymentMethods { padding: 2rem 0; }
-.paymentMethod { padding: 1rem; border-radius: 8px; border: 1px solid #eee; }
+.paymentModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.paymentModal {
+  background: #ffffff;
+  padding: 25px 35px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+  animation: fadeScale 0.25s ease-out;
+  position: relative;
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Payment Method Cards */
+.methodGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 15px 0 25px;
+}
+
+.methodCard {
+  background: linear-gradient(135deg, #f2f2f2, #e6e6e6);
+  padding: 14px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.25s;
+  border: 2px solid transparent;
+  font-size: 0.95rem;
+}
+
+.methodCard:hover {
+  transform: translateY(-2px);
+}
+
+.active {
+  background: linear-gradient(135deg, #0d6efd, #0a58ca);
+  color: #fff;
+  border-color: #084298;
+}
+
+/* Invalid input highlight */
+.invalid {
+  border-color: #dc3545 !important;
+}
+
+/* Success Animation */
+.successOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  font-size: 1.5rem;
+  color: #28a745;
+  animation: fadeScale 0.3s ease-out;
+}
+
+.successOverlay .checkmark {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .paymentModal { padding: 20px; max-width: 92%; }
+  .methodCard { font-size: 0.85rem; padding: 12px; }
+}

@@ -1,177 +1,252 @@
-'use client';
+"use client";
+import { useState } from "react";
+import styles from "@/styles/pages/Bills.module.css";
 
-import { useState } from 'react';
-import styles from '@/styles/Login.module.css';
+export default function PaymentForm({ bill, onClose, onSubmit }) {
+  // Ensure safe defaults — also handle cases where bill exists but fields are missing
+  const safeBill = {
+    billNumber: bill?.billNumber ?? "N/A",
+    amountDue: Number(bill?.amountDue ?? 0),
+    id: bill?.id ?? null,
+  };
 
-export default function PaymentForm({ onPay, onClose }) {
-  const [amount, setAmount] = useState('');
-  const [description, setDescription] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('');
-  const [bank, setBank] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [method, setMethod] = useState("card");
 
-  // Example bank list
-  const banks = ['Access Bank', 'GTBank', 'Zenith Bank', 'First Bank', 'UBA'];
+  // Card
+  const [cardNumber, setCardNumber] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [exp, setExp] = useState("");
+
+  // Bank
+  const [bankName, setBankName] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+
+  // Opay
+  const [opayNumber, setOpayNumber] = useState("");
+  const [opayValid, setOpayValid] = useState(true);
+
+  // USSD
+  const [ussdCode, setUssdCode] = useState("");
+
+  // Success animation
+  const [success, setSuccess] = useState(false);
+
+  // ---------------------- Handlers ----------------------
+  const handleCardChange = (e) => {
+    let val = e.target.value.replace(/\D/g, "");
+    val = val.match(/.{1,4}/g)?.join(" ") || val;
+    setCardNumber(val);
+  };
+
+  const handleCvvChange = (e) => {
+    const val = e.target.value.replace(/\D/g, "");
+    setCvv(val);
+  };
+
+  const handleOpayChange = (e) => {
+    const val = e.target.value.replace(/\D/g, "");
+    setOpayNumber(val);
+    setOpayValid(/^\d{10}$/.test(val));
+  };
+
+  const handleUssdChange = (e) => {
+    let val = e.target.value;
+    if (!val.startsWith("*")) val = "*" + val;
+    setUssdCode(val);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!amount || parseFloat(amount) <= 0) {
-      setError('Please enter a valid amount');
-      return;
-    }
+    const paymentData = {
+      billId: safeBill.id,
+      amount: safeBill.amountDue,
+      method,
+      card: { cardNumber, cvv, exp },
+      bank: { bankName, accountNumber },
+      opay: { opayNumber },
+      ussd: { ussdCode },
+    };
 
-    if (!paymentMethod) {
-      setError('Please select a payment method');
-      return;
-    }
+    onSubmit(paymentData);
+    setSuccess(true);
 
-    if (paymentMethod === 'Bank' && !bank) {
-      setError('Please select a bank');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-
-    // Call onPay with payment details
-    onPay({
-      id: Date.now().toString(),
-      amount: parseFloat(amount),
-      description,
-      paymentMethod,
-      bank: paymentMethod === 'Bank' ? bank : null,
-      date: new Date().toISOString(),
-    });
-
-    // Reset form fields
-    setAmount('');
-    setDescription('');
-    setPaymentMethod('');
-    setBank('');
-    setLoading(false);
-
-    // Automatically close the modal
-    onClose?.();
+    setTimeout(() => {
+      setSuccess(false);
+      onClose();
+    }, 1800);
   };
 
-  const stopPropagation = (e) => e.stopPropagation();
-
+  // ---------------------- UI ----------------------
   return (
-    <div className={styles.authModal} onClick={onClose}>
-      <div className={styles.authContent} onClick={stopPropagation}>
-        <button className={styles.closeButton} onClick={onClose}>
-          <i className="bi bi-x-lg"></i>
-        </button>
+    <div className={styles.paymentModalOverlay}>
+      <div className={styles.paymentModal}>
+        <h3>Pay Bill #{safeBill.billNumber}</h3>
 
-        <div className={styles.authHeader}>
-          <i className="bi bi-credit-card"></i>
-          <h2>Make a Payment</h2>
-          <p>Pay your bills securely and track your payments</p>
+        {/* SAFE FIXED TOFIXED() */}
+        <p>
+          <strong>Amount Due:</strong> $
+          {Number(safeBill.amountDue).toFixed(2)}
+        </p>
+
+        {/* Payment Method Cards */}
+        <div className={styles.methodGrid}>
+          <div
+            className={`${styles.methodCard} ${
+              method === "card" ? styles.active : ""
+            }`}
+            onClick={() => setMethod("card")}
+          >
+            💳 Card
+          </div>
+
+          <div
+            className={`${styles.methodCard} ${
+              method === "bank" ? styles.active : ""
+            }`}
+            onClick={() => setMethod("bank")}
+          >
+            🏦 Bank Transfer
+          </div>
+
+          <div
+            className={`${styles.methodCard} ${
+              method === "opay" ? styles.active : ""
+            }`}
+            onClick={() => setMethod("opay")}
+          >
+            🟩 Opay
+          </div>
+
+          <div
+            className={`${styles.methodCard} ${
+              method === "ussd" ? styles.active : ""
+            }`}
+            onClick={() => setMethod("ussd")}
+          >
+            #️⃣ USSD
+          </div>
         </div>
 
-        {error && (
-          <div className={`alert alert-danger ${styles.alert}`}>
-            <i className="bi bi-exclamation-triangle-fill me-2"></i>
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className={styles.authForm}>
-          {/* Amount */}
-          <div className="mb-3">
-            <label htmlFor="amount" className="form-label">Amount</label>
-            <div className={styles.inputGroup}>
-              <i className="bi bi-currency-dollar"></i>
-              <input
-                type="number"
-                className="form-control"
-                id="amount"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                required
-                placeholder="Enter amount"
-              />
-            </div>
-          </div>
-
-          {/* Description */}
-          <div className="mb-3">
-            <label htmlFor="description" className="form-label">Description (optional)</label>
-            <div className={styles.inputGroup}>
-              <i className="bi bi-card-text"></i>
+        <form onSubmit={handleSubmit}>
+          {/* ===== CARD FIELDS ===== */}
+          {method === "card" && (
+            <>
+              <label className="form-label mt-3">Card Number</label>
               <input
                 type="text"
                 className="form-control"
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Payment description"
-              />
-            </div>
-          </div>
-
-          {/* Payment Method */}
-          <div className="mb-3">
-            <label htmlFor="paymentMethod" className="form-label">Payment Method</label>
-            <div className={styles.inputGroup}>
-              <i className="bi bi-wallet2"></i>
-              <select
-                className="form-select"
-                id="paymentMethod"
-                value={paymentMethod}
-                onChange={(e) => {
-                  setPaymentMethod(e.target.value);
-                  setBank('');
-                }}
+                value={cardNumber}
+                onChange={handleCardChange}
+                maxLength={19}
+                placeholder="1234 5678 9012 3456"
                 required
-              >
-                <option value="">Select method</option>
-                <option value="Bank">Bank Transfer</option>
-                <option value="OPay">OPay</option>
-                <option value="USSD">USSD</option>
-              </select>
-            </div>
-          </div>
+              />
 
-          {/* Bank Selection (only if Bank Transfer) */}
-          {paymentMethod === 'Bank' && (
-            <div className="mb-3">
-              <label htmlFor="bank" className="form-label">Select Bank</label>
-              <div className={styles.inputGroup}>
-                <i className="bi bi-bank"></i>
-                <select
-                  className="form-select"
-                  id="bank"
-                  value={bank}
-                  onChange={(e) => setBank(e.target.value)}
-                  required
-                >
-                  <option value="">Select bank</option>
-                  {banks.map((b) => (
-                    <option key={b} value={b}>{b}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
+              <label className="form-label mt-3">CVV</label>
+              <input
+                type="password"
+                className="form-control"
+                value={cvv}
+                onChange={handleCvvChange}
+                maxLength={3}
+                placeholder="***"
+                required
+              />
+
+              <label className="form-label mt-3">Expiry Date</label>
+              <input
+                type="month"
+                className="form-control"
+                value={exp}
+                onChange={(e) => setExp(e.target.value)}
+                required
+              />
+            </>
           )}
 
-          <button
-            type="submit"
-            className={`btn btn-primary w-100 ${styles.authButton}`}
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <span className="spinner-border spinner-border-sm me-2" role="status"></span>
-                Processing...
-              </>
-            ) : (
-              'Pay Now'
-            )}
-          </button>
+          {/* ===== BANK TRANSFER ===== */}
+          {method === "bank" && (
+            <>
+              <label className="form-label mt-3">Select Bank</label>
+              <select
+                className="form-select"
+                value={bankName}
+                onChange={(e) => setBankName(e.target.value)}
+                required
+              >
+                <option value="">Choose Bank</option>
+                <option value="GTBank">🏦 GTBank</option>
+                <option value="First Bank">🏦 First Bank</option>
+                <option value="Access Bank">🏦 Access Bank</option>
+                <option value="Zenith Bank">🏦 Zenith Bank</option>
+              </select>
+
+              <label className="form-label mt-3">Account Number</label>
+              <input
+                type="text"
+                className="form-control"
+                value={accountNumber}
+                onChange={(e) => setAccountNumber(e.target.value)}
+                required
+              />
+            </>
+          )}
+
+          {/* ===== OPAY ===== */}
+          {method === "opay" && (
+            <>
+              <label className="form-label mt-3">Opay Account Number</label>
+              <input
+                type="text"
+                className={`form-control ${!opayValid ? styles.invalid : ""}`}
+                value={opayNumber}
+                onChange={handleOpayChange}
+                placeholder="10-digit number"
+                required
+              />
+              {!opayValid && (
+                <small className="text-danger">Invalid Opay number</small>
+              )}
+            </>
+          )}
+
+          {/* ===== USSD ===== */}
+          {method === "ussd" && (
+            <>
+              <label className="form-label mt-3">Enter USSD Code</label>
+              <input
+                type="text"
+                className="form-control"
+                value={ussdCode}
+                onChange={handleUssdChange}
+                placeholder="*737*2*Amount#"
+                required
+              />
+            </>
+          )}
+
+          <div className="d-flex justify-content-between mt-4">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+            <button type="submit" className="btn btn-primary">
+              Pay Now
+            </button>
+          </div>
         </form>
+
+        {/* Success Overlay */}
+        {success && (
+          <div className={styles.successOverlay}>
+            <div className={styles.checkmark}>✔</div>
+            <p>Payment Successful!</p>
+          </div>
+        )}
       </div>
     </div>
   );

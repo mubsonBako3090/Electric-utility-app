@@ -2,6 +2,7 @@
 import Head from 'next/head';
 import Header from '@/components/ui/Header';
 import styles from '@/styles/about.module.css';
+import Footer from './Footer';
 
 export default function About() {
 	const stats = [
@@ -79,6 +80,7 @@ export default function About() {
 					</div>
 				</div>
 			</section>
+			<Footer />
 		
 
 		</>

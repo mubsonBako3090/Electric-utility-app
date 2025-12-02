@@ -6,6 +6,7 @@ import BillList from '@/components/bills/BillList';
 import PaymentForm from '@/components/bills/PaymentForm';
 import styles from '@/styles/pages/Bills.module.css';
 import Header from '@/components/ui/Header';
+import Link from "next/link";
 
 export default function Bills() {
   const { user, isAuthenticated, loading } = useAuth();
@@ -142,7 +143,7 @@ export default function Bills() {
   if (!isAuthenticated) {
     return (
       <>
-        <Navbar />
+        <Header />
         <div className={styles.unauthorized}>
           <div className="container text-center">
             <i className="bi bi-shield-exclamation"></i>
@@ -157,7 +158,7 @@ export default function Bills() {
 
   return (
     <>
-      <Navbar />
+      <header />
 
       <div className={styles.bills}>
         {/* Header Section */}
@@ -315,8 +316,6 @@ export default function Bills() {
         </section>
       </div>
 
-      <Footer />
-
       {/* Payment Form Modal */}
       {showPaymentForm && (
         <PaymentForm
@@ -328,6 +327,7 @@ export default function Bills() {
           onSubmit={handlePaymentSubmit}
         />
       )}
+       <Footer />
     </>
   );
   

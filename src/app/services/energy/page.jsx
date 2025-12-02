@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 import styles from '@/styles/Services.module.css';
 
-export default function ResidentialService() {
+export default function energyService() {
   return (
     <>
       <Header />

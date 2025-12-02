@@ -7,8 +7,12 @@ import styles from '@/styles/Dashboard.module.css';
 import Header from '@/components/ui/Header';
 import PaymentForm from '@/components/PaymentForm';
 import BillList from '@/components/BillList';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Dashboard() {
+  const router = useRouter();
+
   const { user, isAuthenticated, loading, logout } = useAuth();
   const [dashboardData, setDashboardData] = useState(null);
 
@@ -16,12 +20,23 @@ export default function Dashboard() {
   const [payments, setPayments] = useState([]);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
 
+  // Track current bill for PaymentForm
+  const [currentBill, setCurrentBill] = useState(null);
+
   const handlePay = (payment) => {
     setPayments((prev) => [...prev, payment]);
     setShowPaymentForm(false); // close form after payment
   };
 
-  const openPaymentForm = () => setShowPaymentForm(true);
+  const openPaymentForm = () => {
+    // Only open if currentBill exists
+    if (dashboardData?.currentBill) {
+      setCurrentBill(dashboardData.currentBill);
+      setShowPaymentForm(true);
+    } else {
+      alert("No bill available to pay.");
+    }
+  };
   const closePaymentForm = () => setShowPaymentForm(false);
 
   useEffect(() => {
@@ -31,7 +46,7 @@ export default function Dashboard() {
   const fetchDashboardData = async () => {
     try {
       const mockData = {
-        currentBill: { amount: 125, dueDate: '2024-01-15', status: 'pending' },
+        currentBill: { id: 1, billNumber: "INV-001", amount: 125, dueDate: '2024-01-15', status: 'pending' },
         usage: { current: 450, previous: 420, unit: 'kWh' },
         outages: { reported: 2, resolved: 1 },
         notifications: [
@@ -123,7 +138,11 @@ export default function Dashboard() {
               <div className="row">
                 {/* Current Bill */}
                 <div className="col-md-3 mb-4">
-                  <div className={styles.statCard}>
+                  <div
+                    className={styles.statCard}
+                    onClick={() => router.push('/bills')}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className={styles.statIcon}>
                       <i className="bi bi-receipt"></i>
                     </div>
@@ -137,7 +156,11 @@ export default function Dashboard() {
 
                 {/* Energy Usage */}
                 <div className="col-md-3 mb-4">
-                  <div className={styles.statCard}>
+                  <div
+                    className={styles.statCard}
+                    onClick={() => router.push('/usage')}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className={styles.statIcon}>
                       <i className="bi bi-lightning"></i>
                     </div>
@@ -153,7 +176,11 @@ export default function Dashboard() {
 
                 {/* Outages */}
                 <div className="col-md-3 mb-4">
-                  <div className={styles.statCard}>
+                  <div
+                    className={styles.statCard}
+                    onClick={() => router.push('/outages')}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className={styles.statIcon}>
                       <i className="bi bi-house-exclamation"></i>
                     </div>
@@ -167,7 +194,11 @@ export default function Dashboard() {
 
                 {/* Notifications */}
                 <div className="col-md-3 mb-4">
-                  <div className={styles.statCard}>
+                  <div
+                    className={styles.statCard}
+                    onClick={() => router.push('/notifications')}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className={styles.statIcon}>
                       <i className="bi bi-bell"></i>
                     </div>
@@ -194,8 +225,14 @@ export default function Dashboard() {
               <i className="bi bi-credit-card me-2"></i> Pay Now
             </button>
 
-            {/* Conditionally render PaymentForm */}
-            {showPaymentForm && <PaymentForm onPay={handlePay} onClose={closePaymentForm} />}
+            {/* Conditionally render PaymentForm ONLY if a bill exists */}
+            {showPaymentForm && currentBill && (
+              <PaymentForm
+                bill={currentBill}
+                onSubmit={handlePay}
+                onClose={closePaymentForm}
+              />
+            )}
 
             {/* List of Payments */}
             <BillList bills={payments} />

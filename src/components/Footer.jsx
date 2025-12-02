@@ -53,11 +53,11 @@ export default function Footer() {
 					<div className="col-lg-3 col-md-3 mb-4">
 						<h5 className={styles.footerTitle}>Services</h5>
 						<ul className={styles.footerLinks}>
-							<li><a href="#">Residential Services</a></li>
-							<li><a href="#">Commercial Services</a></li>
-							<li><a href="#">Emergency Response</a></li>
-							<li><a href="#">Energy Efficiency</a></li>
-							<li><a href="#">Solar Integration</a></li>
+							<li><a href="/services/residential">Residential Services</a></li>
+							<li><a href="/services/commercial">Commercial Services</a></li>
+							<li><a href="/services/emergency">Emergency Response</a></li>
+							<li><a href="/services/energy">Energy Efficiency</a></li>
+							<li><a href="/services/solar">Solar Integration</a></li>
 						</ul>
 					</div>
           
