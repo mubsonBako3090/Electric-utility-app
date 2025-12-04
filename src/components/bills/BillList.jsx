@@ -1,7 +1,8 @@
-"use client";
+'use client';
 import { useState } from "react";
 import PaymentForm from "./PaymentForm";
 import styles from "@/styles/pages/Bills.module.css";
+import { downloadBill } from "@/services/billService"; // ✅ import the download function
 
 export default function BillList({ bills }) {
   const [selectedBill, setSelectedBill] = useState(null);
@@ -40,12 +41,24 @@ export default function BillList({ bills }) {
             <span>
               Amount Due: ${Number(bill.amountDue ?? 0).toFixed(2)}
             </span>
-            <button
-              className="btn btn-primary"
-              onClick={() => handlePayClick(bill)}
-            >
-              Pay
-            </button>
+            <div>
+              <button
+                className="btn btn-primary"
+                onClick={() => handlePayClick(bill)}
+              >
+                Pay
+              </button>
+
+              {/* ✅ Download Bill button for paid bills */}
+              {bill.status === "paid" && (
+                <button
+                  className="btn btn-success ms-2"
+                  onClick={() => downloadBill(bill.id)}
+                >
+                  Download Bill
+                </button>
+              )}
+            </div>
           </li>
         ))}
       </ul>

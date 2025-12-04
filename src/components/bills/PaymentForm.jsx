@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "@/styles/pages/Bills.module.css";
+import { downloadBill } from "@/services/billService"; // ✅ import download function
 
 export default function PaymentForm({ bill, onClose, onSubmit }) {
   const [method, setMethod] = useState("card");
@@ -32,14 +33,14 @@ export default function PaymentForm({ bill, onClose, onSubmit }) {
   };
 
   const handleCvvChange = (e) => {
-    let val = e.target.value.replace(/\D/g, "");
+    const val = e.target.value.replace(/\D/g, "");
     setCvv(val);
   };
 
   const handleOpayChange = (e) => {
     const val = e.target.value.replace(/\D/g, "");
     setOpayNumber(val);
-    setOpayValid(/^\d{10}$/.test(val)); // Opay: exactly 10 digits
+    setOpayValid(/^\d{10}$/.test(val));
   };
 
   const handleUssdChange = (e) => {
@@ -63,6 +64,12 @@ export default function PaymentForm({ bill, onClose, onSubmit }) {
 
     onSubmit(paymentData);
     setSuccess(true);
+
+    // ✅ Auto-download PDF after payment
+    if (bill.id) {
+      downloadBill(bill.id);
+    }
+
     setTimeout(() => {
       setSuccess(false);
       onClose();
@@ -75,7 +82,7 @@ export default function PaymentForm({ bill, onClose, onSubmit }) {
       <div className={styles.paymentModal}>
         <h3>Pay Bill #{bill.billNumber}</h3>
         <p>
-          <strong>Amount Due:</strong> ${bill.amountDue.toFixed(2)}
+          <strong>Amount Due:</strong> ${Number(bill.amountDue).toFixed(2)}
         </p>
 
         {/* Payment Method Cards */}
@@ -226,6 +233,18 @@ export default function PaymentForm({ bill, onClose, onSubmit }) {
           <div className={styles.successOverlay}>
             <div className={styles.checkmark}>✔</div>
             <p>Payment Successful!</p>
+          </div>
+        )}
+
+        {/* ✅ Optional Fallback: Manual Download */}
+        {bill.status === "paid" && (
+          <div className="mt-3 text-center">
+            <button
+              className="btn btn-success"
+              onClick={() => downloadBill(bill.id)}
+            >
+              Download Bill
+            </button>
           </div>
         )}
       </div>

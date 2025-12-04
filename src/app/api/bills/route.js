@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/database';
 import { requireAuth, requireAdmin } from '@/middleware/auth';
-import Bill from '@/models/Bill';
+import Bill from '@/models/Bills';
 import User from '@/models/User';
 import { successResponse, errorResponse, handleError, generateBillNumber } from '@/lib/utils';
 
