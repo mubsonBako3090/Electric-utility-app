@@ -1,5 +1,5 @@
 import connectDB from "@/lib/database";
-import Bill from "@/models/Bill";
+import Bill from "@/models/Bills";
 import { NextResponse } from "next/server";
 import jsPDF from "jspdf";
 
