@@ -6,6 +6,17 @@ import { successResponse, errorResponse } from '@/lib/utils';
 
 export async function GET(request, { params }) {
   try {
+    await connectDB();
+
+    // Prevent static-generation calls from failing
+    const authHeader = request.headers.get("authorization");
+    if (!authHeader) {
+      return NextResponse.json(
+        errorResponse("Authentication required"),
+        { status: 401 }
+      );
+    }
+
     const currentUser = await requireAuth(request);
     const { userId } = params;
 
@@ -22,7 +33,7 @@ export async function GET(request, { params }) {
     const limit = parseInt(searchParams.get('limit')) || 12;
 
     let query = { user: userId };
-    
+
     if (status && status !== 'all') {
       query.status = status;
     }
@@ -31,12 +42,13 @@ export async function GET(request, { params }) {
       .sort({ dueDate: -1 })
       .limit(limit);
 
-    // Calculate summary statistics
+    // Summary statistics
     const totalBills = await Bill.countDocuments({ user: userId });
-    const pendingBills = await Bill.countDocuments({ 
-      user: userId, 
-      status: 'pending' 
+    const pendingBills = await Bill.countDocuments({
+      user: userId,
+      status: 'pending'
     });
+
     const totalAmountDue = await Bill.aggregate([
       { $match: { user: userId, status: 'pending' } },
       { $group: { _id: null, total: { $sum: '$amountDue' } } }
@@ -58,8 +70,8 @@ export async function GET(request, { params }) {
   } catch (error) {
     console.error('Get user bills error:', error);
     return NextResponse.json(
-      errorResponse(error.message),
+      errorResponse(error.message || "Server error"),
       { status: 401 }
     );
-  }
+  }
 }

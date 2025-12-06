@@ -2,8 +2,8 @@
 import { useState } from "react";
 import styles from "@/styles/pages/Bills.module.css";
 
-export default function PaymentForm({ bill, onClose, onSubmit }) {
-  // Ensure safe defaults — also handle cases where bill exists but fields are missing
+export default function PaymentForm({ bill, onClose }) {
+  // Ensure safe defaults
   const safeBill = {
     billNumber: bill?.billNumber ?? "N/A",
     amountDue: Number(bill?.amountDue ?? 0),
@@ -11,6 +11,9 @@ export default function PaymentForm({ bill, onClose, onSubmit }) {
   };
 
   const [method, setMethod] = useState("card");
+
+  // Amount user wants to pay
+  const [amountToPay, setAmountToPay] = useState(safeBill.amountDue);
 
   // Card
   const [cardNumber, setCardNumber] = useState("");
@@ -55,26 +58,40 @@ export default function PaymentForm({ bill, onClose, onSubmit }) {
     setUssdCode(val);
   };
 
-  const handleSubmit = (e) => {
+  // ---------------------- Submit Handler ----------------------
+  const handlePayment = async (e) => {
     e.preventDefault();
 
-    const paymentData = {
-      billId: safeBill.id,
-      amount: safeBill.amountDue,
-      method,
-      card: { cardNumber, cvv, exp },
-      bank: { bankName, accountNumber },
-      opay: { opayNumber },
-      ussd: { ussdCode },
-    };
+    try {
+      const res = await fetch(`/api/bills/${safeBill.id}/pay`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: amountToPay,
+          method,
+          card: { cardNumber, cvv, exp },
+          bank: { bankName, accountNumber },
+          opay: { opayNumber },
+          ussd: { ussdCode },
+        }),
+      });
 
-    onSubmit(paymentData);
-    setSuccess(true);
+      if (!res.ok) {
+        throw new Error("Payment failed");
+      }
 
-    setTimeout(() => {
-      setSuccess(false);
-      onClose();
-    }, 1800);
+      setSuccess(true);
+
+      setTimeout(() => {
+        setSuccess(false);
+        onClose();
+      }, 1800);
+    } catch (error) {
+      console.error(error);
+      alert("Payment error");
+    }
   };
 
   // ---------------------- UI ----------------------
@@ -83,53 +100,59 @@ export default function PaymentForm({ bill, onClose, onSubmit }) {
       <div className={styles.paymentModal}>
         <h3>Pay Bill #{safeBill.billNumber}</h3>
 
-        {/* SAFE FIXED TOFIXED() */}
         <p>
-          <strong>Amount Due:</strong> $
-          {Number(safeBill.amountDue).toFixed(2)}
+          <strong>Amount Due:</strong> ₦{safeBill.amountDue.toFixed(2)}
         </p>
 
-        {/* Payment Method Cards */}
+        {/* Amount to Pay Input */}
+        <label className="form-label mt-3">Amount to Pay</label>
+        <input
+          type="number"
+          className="form-control"
+          value={amountToPay}
+          onChange={(e) => setAmountToPay(Number(e.target.value))}
+          min={1}
+          max={safeBill.amountDue}
+          required
+        />
+        <small className="text-muted">
+          You can pay a partial amount. Maximum: ₦{safeBill.amountDue.toFixed(2)}
+        </small>
+
+        {/* Payment Method Grid */}
         <div className={styles.methodGrid}>
           <div
-            className={`${styles.methodCard} ${
-              method === "card" ? styles.active : ""
-            }`}
+            className={`${styles.methodCard} ${method === "card" ? styles.active : ""}`}
             onClick={() => setMethod("card")}
           >
             💳 Card
           </div>
 
           <div
-            className={`${styles.methodCard} ${
-              method === "bank" ? styles.active : ""
-            }`}
+            className={`${styles.methodCard} ${method === "bank" ? styles.active : ""}`}
             onClick={() => setMethod("bank")}
           >
             🏦 Bank Transfer
           </div>
 
           <div
-            className={`${styles.methodCard} ${
-              method === "opay" ? styles.active : ""
-            }`}
+            className={`${styles.methodCard} ${method === "opay" ? styles.active : ""}`}
             onClick={() => setMethod("opay")}
           >
             🟩 Opay
           </div>
 
           <div
-            className={`${styles.methodCard} ${
-              method === "ussd" ? styles.active : ""
-            }`}
+            className={`${styles.methodCard} ${method === "ussd" ? styles.active : ""}`}
             onClick={() => setMethod("ussd")}
           >
             #️⃣ USSD
           </div>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          {/* ===== CARD FIELDS ===== */}
+        {/* Form */}
+        <form onSubmit={handlePayment}>
+          {/* ===== CARD ===== */}
           {method === "card" && (
             <>
               <label className="form-label mt-3">Card Number</label>
@@ -139,7 +162,6 @@ export default function PaymentForm({ bill, onClose, onSubmit }) {
                 value={cardNumber}
                 onChange={handleCardChange}
                 maxLength={19}
-                placeholder="1234 5678 9012 3456"
                 required
               />
 
@@ -150,7 +172,6 @@ export default function PaymentForm({ bill, onClose, onSubmit }) {
                 value={cvv}
                 onChange={handleCvvChange}
                 maxLength={3}
-                placeholder="***"
                 required
               />
 
@@ -165,7 +186,7 @@ export default function PaymentForm({ bill, onClose, onSubmit }) {
             </>
           )}
 
-          {/* ===== BANK TRANSFER ===== */}
+          {/* ===== BANK ===== */}
           {method === "bank" && (
             <>
               <label className="form-label mt-3">Select Bank</label>
@@ -176,10 +197,10 @@ export default function PaymentForm({ bill, onClose, onSubmit }) {
                 required
               >
                 <option value="">Choose Bank</option>
-                <option value="GTBank">🏦 GTBank</option>
-                <option value="First Bank">🏦 First Bank</option>
-                <option value="Access Bank">🏦 Access Bank</option>
-                <option value="Zenith Bank">🏦 Zenith Bank</option>
+                <option value="GTBank">GTBank</option>
+                <option value="First Bank">First Bank</option>
+                <option value="Access Bank">Access Bank</option>
+                <option value="Zenith Bank">Zenith Bank</option>
               </select>
 
               <label className="form-label mt-3">Account Number</label>

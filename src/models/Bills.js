@@ -1,147 +1,69 @@
 import mongoose from 'mongoose';
 
+const paymentHistorySchema = new mongoose.Schema({
+  amount: { type: Number, required: true },
+  method: { type: String, required: true },
+  paidAt: { type: Date, default: Date.now }
+});
+
 const billSchema = new mongoose.Schema({
-  billNumber: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  accountNumber: {
-    type: String,
-    required: true
-  },
+  billNumber: { type: String, required: true, unique: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  accountNumber: { type: String, required: true },
+
   billingPeriod: {
     start: { type: Date, required: true },
     end: { type: Date, required: true }
   },
-  dueDate: {
-    type: Date,
-    required: true
-  },
-  energyUsage: {
-    type: Number,
-    required: true,
-    min: 0
-  },
-  rate: {
-    type: Number,
-    required: true,
-    default: 0.15
-  },
-  energyCharge: {
-    type: Number,
-    required: true
-  },
-  serviceFee: {
-    type: Number,
-    default: 15.00
-  },
-  taxes: {
-    type: Number,
-    default: 0
-  },
-  totalAmount: {
-    type: Number,
-    required: true
-  },
-  amountDue: {
-    type: Number,
-    required: true
-  },
-  previousBalance: {
-    type: Number,
-    default: 0
-  },
-  payments: {
-    type: Number,
-    default: 0
-  },
+
+  dueDate: { type: Date, required: true },
+
+  energyUsage: { type: Number, required: true, min: 0 },
+  rate: { type: Number, required: true, default: 0.15 },
+  energyCharge: { type: Number, required: true },
+
+  serviceFee: { type: Number, default: 15.0 },
+  taxes: { type: Number, default: 0 },
+
+  totalAmount: { type: Number, required: true },
+  amountDue: { type: Number, required: true },
+
+  previousBalance: { type: Number, default: 0 },
+
+  payments: [paymentHistorySchema],   // Full history support
+
   status: {
     type: String,
-    enum: ['pending', 'paid', 'overdue', 'cancelled'],
+    enum: ['pending', 'partially_paid', 'paid', 'overdue', 'cancelled'],
     default: 'pending'
   },
-  paidAt: {
-    type: Date
-  },
+
+  paidAt: { type: Date },
+
   paymentMethod: {
     type: String,
-    enum: ['credit_card', 'debit_card', 'bank_transfer', 'cash'],
+    enum: [
+      'credit_card',
+      'debit_card',
+      'bank_transfer',
+      'cash',
+      'ussd',
+      'opay'
+    ],
     default: null
   },
+
   meterReadings: {
     previous: { type: Number, required: true, min: 0 },
     current: { type: Number, required: true, min: 0 }
   },
-  notes: {
-    type: String,
-    maxlength: 500
-  }
-}, {
-  timestamps: true
-});
 
-// Auto calculate charges before saving
-billSchema.pre('save', function(next) {
-  if (
-    this.isModified('energyUsage') ||
-    this.isModified('rate') ||
-    this.isModified('serviceFee') ||
-    this.isModified('taxes') ||
-    this.isModified('payments') ||
-    this.isModified('previousBalance')
-  ) {
-    this.energyCharge = parseFloat((this.energyUsage * this.rate).toFixed(2));
-    this.totalAmount = parseFloat((this.energyCharge + this.serviceFee + this.taxes).toFixed(2));
-    this.amountDue = parseFloat((this.totalAmount + this.previousBalance - this.payments).toFixed(2));
-  }
-  next();
-});
+  notes: { type: String, maxlength: 500 }
+}, { timestamps: true });
 
-// Find bills by user
-billSchema.statics.findByUser = function(userId) {
-  return this.find({ user: userId }).sort({ dueDate: -1 });
-};
-
-// Find overdue bills
-billSchema.statics.findOverdue = function() {
-  return this.find({
-    status: 'pending',
-    dueDate: { $lt: new Date() }
-  });
-};
-
-// Mark bill as paid
-billSchema.methods.markAsPaid = function(paymentMethod) {
-  this.status = 'paid';
-  this.paidAt = new Date();
-  this.paymentMethod = paymentMethod;
-  return this.save();
-};
-
-// Virtual: days overdue
-billSchema.virtual('daysOverdue').get(function() {
-  if (this.status !== 'pending' || new Date() <= this.dueDate) return 0;
-
-  const oneDay = 24 * 60 * 60 * 1000;
-  return Math.floor((new Date() - this.dueDate) / oneDay);
-});
-
-// Virtual: billing days
-billSchema.virtual('billingDays').get(function() {
-  const oneDay = 24 * 60 * 60 * 1000;
-  return Math.round(Math.abs((this.billingPeriod.end - this.billingPeriod.start) / oneDay)) + 1;
-});
-
-// Transform JSON output
 billSchema.set('toJSON', {
   virtuals: true,
-  transform: function(doc, ret) {
+  transform: function (doc, ret) {
     ret.id = ret._id;
     delete ret._id;
     delete ret.__v;

@@ -1,10 +1,11 @@
-import Login from "../Login";
+import Login from "./Login";
+
 
 
 export default function LoginForm() {
   return (
 
-    <Login />
+    <Login/>
   );
 }
 

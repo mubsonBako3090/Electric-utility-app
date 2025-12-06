@@ -3,6 +3,7 @@ import { useState } from "react";
 import PaymentForm from "./PaymentForm";
 import styles from "@/styles/pages/Bills.module.css";
 import { downloadBill } from "@/services/billService"; // ✅ import the download function
+import Header from "../ui/Header";
 
 export default function BillList({ bills }) {
   const [selectedBill, setSelectedBill] = useState(null);
@@ -33,10 +34,11 @@ export default function BillList({ bills }) {
 
   return (
     <div>
-      <h2>Your Bills</h2>
-      <ul className={styles.billList}>
-        {bills.map((bill) => (
-          <li key={bill.id} className={styles.billItem}>
+      <Header />
+        <h2>Your Bills</h2>
+        <ul className={styles.billList}>
+          {bills.map((bill) => (
+            <li key={bill.id} className={styles.billItem}>
             <span>Bill #{bill.billNumber}</span>
             <span>
               Amount Due: ${Number(bill.amountDue ?? 0).toFixed(2)}
