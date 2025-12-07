@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
-import connectDB from "@/lib/mongodb";
-import Bills from "@/models/Bill";
+import connectDB from "@/lib/database";
+import Bills from "@/models/Bills";
 
 export async function PATCH(req) {
   try {
