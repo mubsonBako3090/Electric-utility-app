@@ -1,0 +1,146 @@
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 10px;
+  background: white;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+/* Header */
+.headerCell {
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
+  color: #4a5568;
+  background: #f8fafc;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+/* Cells */
+.cell {
+  padding: 1rem;
+  color: #1a202c;
+  line-height: 1.5;
+}
+
+/* Striped rows */
+.striped tbody tr:nth-child(even) {
+  background: #f7fafc;
+}
+
+/* Hoverable rows */
+.hoverable tbody tr:hover {
+  background: #ebf4ff;
+}
+
+/* Bordered */
+.bordered td, .bordered th {
+  border: 1px solid #e2e8f0;
+}
+
+.bordered th {
+  border-bottom-width: 2px;
+}
+
+/* Compact mode */
+.compact .cell {
+  padding: 0.5rem 1rem;
+}
+
+/* Clickable rows */
+.clickableRow {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clickableRow:hover {
+  background: #ebf4ff !important;
+}
+
+/* Loading state */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 10px;
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e2e8f0;
+  border-radius: 50%;
+  border-top-color: #667eea;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Empty state */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 10px;
+  color: #a0aec0;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .table {
+    background: #2d3748;
+  }
+  
+  .headerCell {
+    background: #1a202c;
+    color: #a0aec0;
+    border-bottom-color: #4a5568;
+  }
+  
+  .cell {
+    color: #f7fafc;
+    border-bottom-color: #4a5568;
+  }
+  
+  .striped tbody tr:nth-child(even) {
+    background: #2d3748;
+  }
+  
+  .loadingContainer, .emptyState {
+    background: #2d3748;
+    color: #a0aec0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.75rem;
+  }
+  
+  .cell {
+    padding: 0.75rem;
+  }
+}
