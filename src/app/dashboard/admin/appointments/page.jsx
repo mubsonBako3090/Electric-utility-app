@@ -4,55 +4,46 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAppointments } from '@/hooks/useAppointments';
+import { useAuth } from '@/hooks/useAuth';
 import StatusBadge from '@/components/common/StatusBadge';
-import SearchBar from '@/components/common/SearchBar';
-import Pagination from '@/components/common/Pagination';
-import Button from '@/components/ui/Button';
 import styles from './appointments.module.css';
 
-export default function AppointmentsPage() {
+export default function DoctorAppointmentsPage() {
   const router = useRouter();
+  const { user } = useAuth();
   const {
     appointments,
     loading,
-    pagination,
     fetchAppointments,
     updateAppointment
   } = useAppointments();
 
-  const [filters, setFilters] = useState({
-    status: 'all',
-    date: '',
-    doctor: '',
-    patient: ''
-  });
-
-  const [viewMode, setViewMode] = useState('list'); // 'list' or 'calendar'
+  const [filter, setFilter] = useState('today');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetchAppointments(filters);
-  }, [filters]);
-
-  const handleSearch = (term) => {
-    setFilters(prev => ({ ...prev, search: term }));
-  };
-
-  const handleFilterChange = (key, value) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
-  };
+    if (user?.id) {
+      fetchAppointments({ 
+        doctorId: user.id,
+        filter: filter 
+      });
+    }
+  }, [user?.id, filter]);
 
   const handleStatusChange = async (appointmentId, newStatus) => {
     const result = await updateAppointment(appointmentId, { status: newStatus });
     if (result.success) {
-      fetchAppointments(filters);
+      fetchAppointments({ doctorId: user.id, filter });
     }
   };
 
+  const startConsultation = (appointmentId) => {
+    router.push(`/doctor/appointments/${appointmentId}/consultation`);
+  };
+
   const filterOptions = [
-    { value: 'all', label: 'All Appointments' },
-    { value: 'scheduled', label: 'Scheduled' },
-    { value: 'confirmed', label: 'Confirmed' },
-    { value: 'in-progress', label: 'In Progress' },
+    { value: 'today', label: "Today's Appointments" },
+    { value: 'upcoming', label: 'Upcoming' },
     { value: 'completed', label: 'Completed' },
     { value: 'cancelled', label: 'Cancelled' }
   ];
@@ -60,117 +51,122 @@ export default function AppointmentsPage() {
   return (
     <div className={styles.container}>
       <div className={styles.pageHeader}>
-        <div>
-          <h1 className={styles.pageTitle}>Appointments</h1>
-          <p className={styles.pageSubtitle}>Manage and schedule patient appointments</p>
-        </div>
-        <div className={styles.headerActions}>
-          <div className={styles.viewToggle}>
-            <button
-              className={`${styles.viewBtn} ${viewMode === 'list' ? styles.activeView : ''}`}
-              onClick={() => setViewMode('list')}
-            >
-              📋 List
-            </button>
-            <button
-              className={`${styles.viewBtn} ${viewMode === 'calendar' ? styles.activeView : ''}`}
-              onClick={() => setViewMode('calendar')}
-            >
-              📅 Calendar
-            </button>
-          </div>
-          <Link href="/admin/appointments/new" className={styles.addButton}>
-            + New Appointment
-          </Link>
-        </div>
+        <h1 className={styles.pageTitle}>My Appointments</h1>
+        <p className={styles.pageSubtitle}>Manage your patient appointments</p>
       </div>
 
       <div className={styles.controls}>
-        <SearchBar
-          onSearch={handleSearch}
-          placeholder="Search appointments by patient or doctor..."
-          className={styles.searchBar}
-        />
+        <div className={styles.filterTabs}>
+          {filterOptions.map(option => (
+            <button
+              key={option.value}
+              className={`${styles.filterTab} ${filter === option.value ? styles.activeFilter : ''}`}
+              onClick={() => setFilter(option.value)}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
 
-        <div className={styles.filters}>
-          <select
-            value={filters.status}
-            onChange={(e) => handleFilterChange('status', e.target.value)}
-            className={styles.filterSelect}
-          >
-            {filterOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-
+        <div className={styles.searchBox}>
           <input
-            type="date"
-            value={filters.date}
-            onChange={(e) => handleFilterChange('date', e.target.value)}
-            className={styles.dateInput}
+            type="text"
+            placeholder="Search patients..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={styles.searchInput}
           />
-
-          <Button variant="secondary" size="small">
-            More Filters
-          </Button>
         </div>
       </div>
 
-      {viewMode === 'list' ? (
-        <>
-          <div className={styles.appointmentsList}>
-            <table className={styles.appointmentsTable}>
-              <thead>
-                <tr>
-                  <th>Date & Time</th>
-                  <th>Patient</th>
-                  <th>Doctor</th>
-                  <th>Type</th>
-                  <th>Status</th>
-                  <th>Payment</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
+      <div className={styles.appointmentsList}>
+        {loading ? (
+          <div className={styles.loadingContainer}>
+            <div className={styles.loader}></div>
+          </div>
+        ) : (
+          <>
+            {appointments.length === 0 ? (
+              <div className={styles.emptyState}>
+                <div className={styles.emptyIcon}>📅</div>
+                <h3>No appointments found</h3>
+                <p>You have no {filter} appointments</p>
+              </div>
+            ) : (
+              <div className={styles.timeline}>
                 {appointments.map((appointment) => (
-                  <tr key={appointment.id} className={styles.tableRow}>
-                    <td>
-                      <div className={styles.dateTime}>
-                        <span className={styles.date}>{appointment.date}</span>
-                        <span className={styles.time}>{appointment.startTime}</span>
+                  <div key={appointment.id} className={styles.appointmentCard}>
+                    <div className={styles.timeColumn}>
+                      <span className={styles.time}>{appointment.startTime}</span>
+                      <span className={styles.duration}>{appointment.duration} min</span>
+                    </div>
+
+                    <div className={styles.appointmentContent}>
+                      <div className={styles.cardHeader}>
+                        <div className={styles.patientInfo}>
+                          <h3>{appointment.patientName}</h3>
+                          <span className={styles.appointmentType}>{appointment.type}</span>
+                        </div>
+                        <StatusBadge status={appointment.status} />
                       </div>
-                    </td>
-                    <td>
-                      <Link href={`/admin/patients/${appointment.patientId}`} className={styles.patientLink}>
-                        {appointment.patientName}
-                      </Link>
-                    </td>
-                    <td>
-                      <Link href={`/admin/doctors/${appointment.doctorId}`} className={styles.doctorLink}>
-                        Dr. {appointment.doctorName}
-                      </Link>
-                    </td>
-                    <td>
-                      <span className={styles.appointmentType}>{appointment.type}</span>
-                    </td>
-                    <td>
-                      <StatusBadge status={appointment.status} />
-                    </td>
-                    <td>
-                      <StatusBadge status={appointment.paymentStatus || 'pending'} />
-                    </td>
-                    <td>
-                      <div className={styles.actionButtons}>
-                        <Link
-                          href={`/admin/appointments/${appointment.id}`}
-                          className={styles.actionBtn}
-                          title="View Details"
+
+                      <div className={styles.cardBody}>
+                        <p className={styles.reason}>
+                          <strong>Reason:</strong> {appointment.reason}
+                        </p>
+                        {appointment.notes && (
+                          <p className={styles.notes}>
+                            <strong>Notes:</strong> {appointment.notes}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className={styles.cardFooter}>
+                        <Link 
+                          href={`/doctor/patients/${appointment.patientId}`}
+                          className={styles.viewPatientBtn}
                         >
-                          👁️
+                          View Patient
                         </Link>
-                        <button
-                          className={styles.actionBtn}
-                          title="Reschedule"
-                          onClick={() => router.push(`/admin/appointments/${appointment.id}/reschedule`
+
+                        {appointment.status === 'scheduled' && (
+                          <button
+                            className={styles.startBtn}
+                            onClick={() => startConsultation(appointment.id)}
+                          >
+                            Start Consultation
+                          </button>
+                        )}
+
+                        {appointment.status === 'in-progress' && (
+                          <button
+                            className={styles.completeBtn}
+                            onClick={() => handleStatusChange(appointment.id, 'completed')}
+                          >
+                            Complete
+                          </button>
+                        )}
+
+                        {appointment.status === 'scheduled' && (
+                          <select
+                            className={styles.statusSelect}
+                            value={appointment.status}
+                            onChange={(e) => handleStatusChange(appointment.id, e.target.value)}
+                          >
+                            <option value="scheduled">Scheduled</option>
+                            <option value="confirmed">Confirm</option>
+                            <option value="cancelled">Cancel</option>
+                          </select>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+              }
