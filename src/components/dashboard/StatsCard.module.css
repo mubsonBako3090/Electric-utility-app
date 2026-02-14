@@ -1,0 +1,158 @@
+.card {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, transparent 50%, rgba(255, 255, 255, 0.1) 50%);
+  border-radius: 50%;
+  transform: translate(50px, -50px);
+}
+
+/* Color Variants */
+.primary {
+  border-left-color: #667eea;
+  background: linear-gradient(135deg, white 0%, #f0f4ff 100%);
+}
+
+.success {
+  border-left-color: #48bb78;
+  background: linear-gradient(135deg, white 0%, #f0fff4 100%);
+}
+
+.warning {
+  border-left-color: #ecc94b;
+  background: linear-gradient(135deg, white 0%, #fffaf0 100%);
+}
+
+.danger {
+  border-left-color: #f56565;
+  background: linear-gradient(135deg, white 0%, #fff5f5 100%);
+}
+
+.secondary {
+  border-left-color: #764ba2;
+  background: linear-gradient(135deg, white 0%, #f3e8ff 100%);
+}
+
+.info {
+  border-left-color: #4299e1;
+  background: linear-gradient(135deg, white 0%, #ebf8ff 100%);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.cardIcon {
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitle {
+  font-size: 0.875rem;
+  color: #718096;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cardBody {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.cardValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.cardTrend {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.trendIcon {
+  font-size: 0.875rem;
+}
+
+.trendValue {
+  color: #4a5568;
+}
+
+.cardFooter {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.viewDetailsBtn {
+  background: none;
+  border: none;
+  color: #667eea;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.viewDetailsBtn:hover {
+  color: #5a67d8;
+  transform: translateX(5px);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: #2d3748;
+  }
+
+  .cardValue {
+    color: #f7fafc;
+  }
+
+  .cardTitle {
+    color: #a0aec0;
+  }
+
+  .cardFooter {
+    border-top-color: #4a5568;
+  }
+                                                            }
