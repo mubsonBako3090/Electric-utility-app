@@ -1,0 +1,89 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Sizes */
+.small .pageButton {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  min-width: 30px;
+}
+
+.medium .pageButton {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  min-width: 40px;
+}
+
+.large .pageButton {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  min-width: 50px;
+}
+
+.pageButton {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pageButton:hover:not(:disabled):not(.dots) {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(102, 126, 234, 0.2);
+}
+
+.pageButton.active {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
+}
+
+.pageButton.dots {
+  border: none;
+  background: transparent;
+  cursor: default;
+}
+
+.pageButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .pageButton {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: #f7fafc;
+  }
+
+  .pageButton.dots {
+    background: transparent;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pagination {
+    gap: 0.25rem;
+  }
+
+  .pageButton {
+    min-width: 35px;
+    padding: 0.5rem;
+  }
+}
