@@ -144,4 +144,11 @@ export default function PatientLayout({ children }) {
             <span>Refill</span>
           </button>
           <button className={styles.quickAction}>
-            <span className={styles.quickIcon}>💰</
+            <span className={styles.quickIcon}>💰</span>
+            <span>Pay</span>
+          </button>
+        </div>
+      </main>
+    </div>
+  );
+            }
