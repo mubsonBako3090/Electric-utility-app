@@ -1,32 +1,26 @@
-'use client';
-import { useEffect } from 'react';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { AuthModalProvider } from '@/components/AuthModalContext';
-import '@/styles/globals.css';
+// src/app/layout.js
+import { Inter } from 'next/font/google'
+import AuthProvider from '@/context/AuthContext'
+import NotificationProvider from '@/context/NotificationContext'
+import './globals.css'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata = {
+  title: 'Hospital Management System',
+  description: 'Complete healthcare management solution',
+}
 
 export default function RootLayout({ children }) {
-  useEffect(() => {
-    const AOS = require('aos');
-    AOS.init({
-      duration: 1000,
-      once: true,
-      offset: 100,
-    });
-  }, []);
-
   return (
     <html lang="en">
-      <head>
-        <title>PowerGrid Utilities - Reliable Energy Solutions</title>
-        <meta name="description" content="Your trusted electric utility provider" />
-      </head>
-      <body>
+      <body className={inter.className}>
         <AuthProvider>
-          <AuthModalProvider>
-            {children}      {/* Header/Navbar inside this can use useAuthModal */}
-          </AuthModalProvider>
+          <NotificationProvider>
+            {children}
+          </NotificationProvider>
         </AuthProvider>
       </body>
     </html>
-  );
-}
+  )
+    }
