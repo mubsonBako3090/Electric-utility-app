@@ -1,8 +1,8 @@
 
 // src/app/layout.js
 import { Inter } from 'next/font/google'
-import AuthProvider from '@/context/AuthContext'
-import NotificationProvider from '@/context/NotificationContext'
+import { AuthProvider } from '@/context/AuthContext'
+import { NotificationProvider } from '@/context/NotificationContext'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
