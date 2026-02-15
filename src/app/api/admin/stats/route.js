@@ -1,4 +1,4 @@
-"use client";
+
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Patient from '@/lib/models/Patient';
@@ -7,6 +7,8 @@ import Appointment from '@/lib/models/Appointment';
 import Invoice from '@/lib/models/Invoice';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+
+export const dynamic = "force-dynamic";
 
 export async function GET(request) {
   try {
