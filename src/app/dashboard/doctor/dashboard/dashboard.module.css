@@ -1,0 +1,529 @@
+.container {
+  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Welcome Header */
+.welcomeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.welcomeTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.doctorName {
+  color: #667eea;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.welcomeSubtitle {
+  color: #718096;
+  font-size: 1rem;
+}
+
+.headerActions {
+  display: flex;
+  gap: 1rem;
+}
+
+.scheduleBtn, .recordBtn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.scheduleBtn {
+  background: #667eea;
+  color: white;
+}
+
+.scheduleBtn:hover {
+  background: #5a67d8;
+  transform: translateY(-2px);
+}
+
+.recordBtn {
+  background: #48bb78;
+  color: white;
+}
+
+.recordBtn:hover {
+  background: #38a169;
+  transform: translateY(-2px);
+}
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid #e2e8f0;
+}
+
+.statIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.statInfo {
+  flex: 1;
+}
+
+.statValue {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a202c;
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  color: #718096;
+  text-transform: uppercase;
+}
+
+/* Dashboard Grid */
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Cards */
+.scheduleCard, .upcomingCard, .patientsCard, .quickActionsCard {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.cardHeader h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.viewAll {
+  color: #667eea;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* Timeline */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.timelineItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f7fafc;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.timelineItem:hover {
+  background: #edf2f7;
+}
+
+.timeColumn {
+  min-width: 60px;
+}
+
+.time {
+  font-weight: 600;
+  color: #667eea;
+  font-size: 0.875rem;
+}
+
+.appointmentContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.patientInfo h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 0.25rem;
+}
+
+.patientInfo p {
+  font-size: 0.75rem;
+  color: #718096;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.startBtn, .completeBtn {
+  padding: 0.25rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.startBtn {
+  background: #667eea;
+  color: white;
+}
+
+.startBtn:hover {
+  background: #5a67d8;
+}
+
+.completeBtn {
+  background: #48bb78;
+  color: white;
+}
+
+.completeBtn:hover {
+  background: #38a169;
+}
+
+.viewBtn {
+  padding: 0.25rem 0.75rem;
+  background: #e2e8f0;
+  color: #4a5568;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.viewBtn:hover {
+  background: #cbd5e0;
+}
+
+/* Upcoming List */
+.upcomingList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.upcomingItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: #f7fafc;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.upcomingItem:hover {
+  background: #edf2f7;
+}
+
+.upcomingDate {
+  text-align: center;
+  min-width: 50px;
+}
+
+.dateDay {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #667eea;
+  line-height: 1;
+}
+
+.dateMonth {
+  font-size: 0.7rem;
+  color: #718096;
+  text-transform: uppercase;
+}
+
+.upcomingInfo {
+  flex: 1;
+}
+
+.upcomingInfo h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 0.25rem;
+}
+
+.upcomingInfo p {
+  font-size: 0.75rem;
+  color: #718096;
+}
+
+.upcomingAction {
+  width: 30px;
+  height: 30px;
+  background: #e2e8f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #4a5568;
+  transition: all 0.3s ease;
+}
+
+.upcomingAction:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* Patients List */
+.patientsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.patientRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: #f7fafc;
+  border-radius: 8px;
+}
+
+.patientRow img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.patientInfo {
+  flex: 1;
+}
+
+.patientInfo h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 0.25rem;
+}
+
+.patientInfo p {
+  font-size: 0.75rem;
+  color: #718096;
+}
+
+.patientActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.patientAction {
+  padding: 0.25rem 0.5rem;
+  background: #e2e8f0;
+  color: #4a5568;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  transition: all 0.3s ease;
+}
+
+.patientAction:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* Quick Actions */
+.actionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.actionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f7fafc;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #4a5568;
+  transition: all 0.3s ease;
+}
+
+.actionItem:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-3px);
+}
+
+.actionIcon {
+  font-size: 1.5rem;
+}
+
+/* Performance Section */
+.performanceSection {
+  margin-top: 2rem;
+}
+
+.performanceSection h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 1rem;
+}
+
+.performanceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.performanceCard {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.perfLabel {
+  display: block;
+  font-size: 0.875rem;
+  color: #718096;
+  margin-bottom: 0.5rem;
+}
+
+.perfValue {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.perfTrend {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.perfTrend.positive {
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.perfTrend.negative {
+  background: #fed7d7;
+  color: #742a2a;
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  color: #718096;
+}
+
+/* Loading */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #e2e8f0;
+  border-radius: 50%;
+  border-top-color: #667eea;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .dashboardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .welcomeHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerActions {
+    width: 100%;
+  }
+
+  .scheduleBtn, .recordBtn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .actionGrid {
+    grid-template-columns: 1fr;
+  }
+}
