@@ -1,3 +1,4 @@
+"use client";
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Patient from '@/lib/models/Patient';
