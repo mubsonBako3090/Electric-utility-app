@@ -1,4 +1,3 @@
-"use client";
 
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
@@ -7,6 +6,7 @@ import User from '@/lib/models/User';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
+export const dynamic = "force-dynamic";
 export async function GET(request) {
   try {
     const session = await getServerSession(authOptions);
