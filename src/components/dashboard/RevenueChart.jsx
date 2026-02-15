@@ -193,7 +193,7 @@ export default function RevenueChart() {
         <div className={styles.statBox}>
           <span className={styles.statLabel}>Avg. per Day</span>
           <span className={styles.statValue}>$5,950</span>
-          <span className={styles.statTrend positive}>+8.3%</span>
+          <span className={styles.statTrend positive}>+12.5%</span>
         </div>
         <div className={styles.statBox}>
           <span className={styles.statLabel}>Total Appointments</span>
