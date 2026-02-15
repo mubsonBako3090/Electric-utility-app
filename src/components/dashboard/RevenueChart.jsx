@@ -185,27 +185,30 @@ export default function RevenueChart() {
       </div>
 
       <div className={styles.statsSummary}>
-        <div className={styles.statBox}>
-          <span className={styles.statLabel}>Total Revenue</span>
-          <span className={styles.statValue}>$184,500</span>
-          <span className={styles.statTrend positive}>+12.5%</span>
-        </div>
-        <div className={styles.statBox}>
-          <span className={styles.statLabel}>Avg. per Day</span>
-          <span className={styles.statValue}>$5,950</span>
-          <span className={styles.statTrend positive}>+12.5%</span>
-        </div>
-        <div className={styles.statBox}>
-          <span className={styles.statLabel}>Total Appointments</span>
-          <span className={styles.statValue}>3,245</span>
-          <span className={styles.statTrend positive}>+15.2%</span>
-        </div>
-        <div className={styles.statBox}>
-          <span className={styles.statLabel}>Avg. per Appointment</span>
-          <span className={styles.statValue}>$56.85</span>
-          <span className={styles.statTrend negative}>-2.1%</span>
-        </div>
-      </div>
+  <div className={styles.statBox}>
+    <span className={styles.statLabel}>Total Revenue</span>
+    <span className={styles.statValue}>$184,500</span>
+    <span className={`${styles.statTrend} ${styles.positive}`}>+12.5%</span>
+  </div>
+
+  <div className={styles.statBox}>
+    <span className={styles.statLabel}>Avg. per Day</span>
+    <span className={styles.statValue}>$5,950</span>
+    <span className={`${styles.statTrend} ${styles.positive}`}>+12.5%</span>
+  </div>
+
+  <div className={styles.statBox}>
+    <span className={styles.statLabel}>Total Appointments</span>
+    <span className={styles.statValue}>3,245</span>
+    <span className={`${styles.statTrend} ${styles.positive}`}>+15.2%</span>
+  </div>
+
+  <div className={styles.statBox}>
+    <span className={styles.statLabel}>Avg. per Appointment</span>
+    <span className={styles.statValue}>$56.85</span>
+    <span className={`${styles.statTrend} ${styles.negative}`}>-2.1%</span>
+  </div>
+</div>
 
       <div className={styles.chartContainer}>
         <Line data={chartData} options={options} />
