@@ -1,4 +1,3 @@
-// src/app/page.jsx
 'use client'
 
 import { useRouter } from 'next/navigation'
@@ -43,94 +42,99 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Reusable Navbar */}
       <Navbar />
 
       <div className={styles.container}>
-        {/* Hero Section */}
+        {/* SYSTEM INTRO */}
         <section className={styles.hero}>
-          <div className={styles.heroContent}>
-            <h1>Welcome to MediCare Hospital</h1>
-            <p>Providing compassionate healthcare with cutting-edge technology</p>
+          <h1>Hospital Management System</h1>
+          <p>
+            A centralized platform designed to manage hospital operations including
+            patient registration, appointment scheduling, medical records, billing,
+            and staff coordination.
+          </p>
 
-            <div className={styles.heroButtons}>
-              <Link href="/register" className={styles.primaryBtn}>
-                Get Started
-              </Link>
+          <div className={styles.actions}>
+            <Link href="/login" className={styles.primaryBtn}>
+              Login to System
+            </Link>
 
-              <Link href="#services" className={styles.secondaryBtn}>
-                Learn More
-              </Link>
+            <Link href="/register" className={styles.secondaryBtn}>
+              Register Patient
+            </Link>
+          </div>
+        </section>
+
+        {/* ABOUT SYSTEM */}
+        <section className={styles.section}>
+          <h2>About This System</h2>
+          <p>
+            This web-based Hospital Management System was developed to digitize
+            manual hospital processes, reduce paperwork, improve patient care,
+            and ensure secure access to medical information for authorized users.
+          </p>
+        </section>
+
+        {/* USER ROLES */}
+        <section className={styles.section}>
+          <h2>System Access Levels</h2>
+
+          <div className={styles.grid}>
+            <div className={styles.card}>
+              <h3>Administrator</h3>
+              <p>
+                Manages hospital staff, system records, departments, and generates
+                operational reports.
+              </p>
+            </div>
+
+            <div className={styles.card}>
+              <h3>Doctor</h3>
+              <p>
+                Views assigned patients, updates diagnoses, prescribes treatment,
+                and manages appointments.
+              </p>
+            </div>
+
+            <div className={styles.card}>
+              <h3>Receptionist</h3>
+              <p>
+                Registers patients, schedules appointments, and assists with
+                hospital front-desk operations.
+              </p>
+            </div>
+
+            <div className={styles.card}>
+              <h3>Patient</h3>
+              <p>
+                Books appointments, views medical history, and tracks treatment
+                information through the portal.
+              </p>
             </div>
           </div>
         </section>
 
-        {/* Stats Section */}
-        <section className={styles.stats}>
-          <div className={styles.statItem}>
-            <h3>25+</h3>
-            <p>Years of Excellence</p>
-          </div>
-          <div className={styles.statItem}>
-            <h3>500+</h3>
-            <p>Medical Professionals</p>
-          </div>
-          <div className={styles.statItem}>
-            <h3>50k+</h3>
-            <p>Happy Patients</p>
-          </div>
-          <div className={styles.statItem}>
-            <h3>24/7</h3>
-            <p>Emergency Care</p>
-          </div>
+        {/* CORE FEATURES */}
+        <section className={styles.section}>
+          <h2>Core Functionalities</h2>
+
+          <ul className={styles.features}>
+            <li>✔ Electronic Medical Records (EMR)</li>
+            <li>✔ Appointment Scheduling System</li>
+            <li>✔ Role-Based Access Control</li>
+            <li>✔ Automated Billing and Payment Tracking</li>
+            <li>✔ Secure Authentication</li>
+            <li>✔ Real-Time Data Management</li>
+          </ul>
         </section>
 
-        {/* Services Section */}
-        <section id="services" className={styles.services}>
-          <h2>Our Services</h2>
-
-          <div className={styles.servicesGrid}>
-            <div className={styles.serviceCard}>
-              <div className={styles.serviceIcon}>🏥</div>
-              <h3>Emergency Care</h3>
-              <p>24/7 emergency services with rapid response teams</p>
-            </div>
-
-            <div className={styles.serviceCard}>
-              <div className={styles.serviceIcon}>👨‍⚕️</div>
-              <h3>Expert Doctors</h3>
-              <p>Board-certified specialists in various fields</p>
-            </div>
-
-            <div className={styles.serviceCard}>
-              <div className={styles.serviceIcon}>🔬</div>
-              <h3>Advanced Lab</h3>
-              <p>State-of-the-art diagnostic facilities</p>
-            </div>
-
-            <div className={styles.serviceCard}>
-              <div className={styles.serviceIcon}>💊</div>
-              <h3>Pharmacy</h3>
-              <p>In-house pharmacy with all medications</p>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className={styles.cta}>
-          <h2>Ready to Experience Better Healthcare?</h2>
-          <p>Join thousands of satisfied patients today</p>
-
-          <Link href="/register" className={styles.ctaBtn}>
-            Register Now
-          </Link>
-        </section>
-
-        {/* Footer */}
+        {/* FOOTER */}
         <footer className={styles.footer}>
-          <p>© 2024 MediCare Hospital. All rights reserved.</p>
+          <p>
+            Developed as a Final Year Computer Science Project — Hospital Management System
+          </p>
         </footer>
       </div>
     </>
   )
-}
+      }
