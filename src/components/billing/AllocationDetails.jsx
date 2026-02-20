@@ -1,4 +1,4 @@
-use client';
+'use client';
 
 export default function AllocationDetails({ bill }) {
   const allocations = [
@@ -15,25 +15,31 @@ export default function AllocationDetails({ bill }) {
           Time-of-day usage breakdown
         </p>
       </div>
+
       <div className="px-6 py-5">
         <div className="space-y-4">
           {allocations.map((item) => (
             <div key={item.time} className="flex justify-between items-center">
               <div>
-                <span className="text-sm font-medium text-gray-900">{item.time}</span>
-                <p className="text-xs text-gray-500">{item.units} kWh @ ₹{item.rate}/kWh</p>
+                <span className="text-sm font-medium text-gray-900">
+                  {item.time}
+                </span>
+                <p className="text-xs text-gray-500">
+                  {item.units} kWh @ ₦{item.rate}/kWh
+                </p>
               </div>
-              <span className="font-medium">₹{item.amount}</span>
+              <span className="font-medium">₦{item.amount}</span>
             </div>
           ))}
+
           <div className="border-t border-gray-200 pt-4 mt-4">
             <div className="flex justify-between text-sm text-gray-600">
               <span>Total Units: 200 kWh</span>
-              <span>Effective Rate: ₹5.70/kWh</span>
+              <span>Effective Rate: ₦5.70/kWh</span>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-      }
+        }
