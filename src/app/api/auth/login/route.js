@@ -1,33 +1,62 @@
-import { connectDB } from "@/lib/mongodb";
-import User from "@/models/User";
-import bcrypt from "bcryptjs";
-import { signToken } from "@/lib/auth";
+import { NextResponse } from 'next/server';
+import connectDB from '@/lib/mongodb';
+import User from '@/models/User';
+import { signToken, setTokenCookie } from '@/lib/auth';
 
-export async function POST(req) {
-  await connectDB();
+export async function POST(request) {
+  try {
+    await connectDB();
+    
+    const body = await request.json();
+    const { email, password } = body;
 
-  const { email, password } = await req.json();
+    // Find user with password
+    const user = await User.findOne({ email }).select('+password');
+    
+    if (!user) {
+      return NextResponse.json(
+        { message: 'Invalid credentials' },
+        { status: 401 }
+      );
+    }
 
-  const user = await User.findOne({ email });
+    // Check password
+    const isPasswordValid = await user.comparePassword(password);
+    
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { message: 'Invalid credentials' },
+        { status: 401 }
+      );
+    }
 
-  if (!user) {
-    return Response.json({ error: "User not found" }, { status: 404 });
+    // Create token
+    const token = signToken(user);
+    
+    // Set cookie
+    setTokenCookie(token);
+
+    // Remove password from response
+    user.password = undefined;
+
+    return NextResponse.json(
+      { 
+        message: 'Login successful',
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          customerCategory: user.customerCategory,
+        }
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Login error:', error);
+    return NextResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    );
   }
-
-  const match = await bcrypt.compare(password, user.password);
-
-  if (!match) {
-    return Response.json({ error: "Invalid password" }, { status: 401 });
-  }
-
-  if (!user.approved) {
-    return Response.json({ error: "Awaiting Admin Approval" }, { status: 403 });
-  }
-
-  const token = signToken({ id: user._id, role: user.role });
-
-  return Response.json({
-    token,
-    role: user.role,
-  });
       }
