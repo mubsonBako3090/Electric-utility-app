@@ -1,12 +1,43 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const BillSchema = new mongoose.Schema({
-  customerId: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
-  month: String,
-  totalHours: Number,
-  loadFactor: Number,
-  amount: Number,
-  breakdown: Object,
+const billSchema = new mongoose.Schema({
+  customerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Customer',
+    required: true,
+  },
+  billNumber: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  billingPeriod: {
+    from: Date,
+    to: Date,
+  },
+  dueDate: Date,
+  previousReading: {
+    value: Number,
+    date: Date,
+  },
+  currentReading: {
+    value: Number,
+    date: Date,
+  },
+  unitsConsumed: Number,
+  tariffRate: Number,
+  energyCharges: Number,
+  fixedCharges: Number,
+  taxes: Number,
+  totalAmount: Number,
+  status: {
+    type: String,
+    enum: ['generated', 'sent', 'paid', 'overdue', 'disputed'],
+    default: 'generated',
+  },
+  paymentDate: Date,
+  paymentMethod: String,
 }, { timestamps: true });
 
-export default mongoose.models.Bill || mongoose.model("Bill", BillSchema);
+const Bill = mongoose.models.Bill || mongoose.model('Bill', billSchema);
+export default Bill;
