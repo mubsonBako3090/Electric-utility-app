@@ -1,0 +1,266 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  padding: 2rem;
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  animation: slideDown 0.5s ease-out;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.newBtn {
+  padding: 0.75rem 2rem;
+  background: white;
+  color: #38a169;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.newBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.formCard {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.5s ease-out;
+}
+
+.formTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.datePicker {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.contactSection {
+  background: #f7fafc;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sectionSubtitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.propertyStatus {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.vacationList {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.listItem {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.listItem:hover {
+  background: #f7fafc;
+  transform: translateX(5px);
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.itemType {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  text-transform: capitalize;
+}
+
+.itemDates {
+  color: #718096;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.itemStatus {
+  padding: 0.25rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.statusPending {
+  background: #feebc8;
+  color: #7b341e;
+}
+
+.statusApproved {
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.statusActive {
+  background: #bee3f8;
+  color: #2c5282;
+}
+
+.statusCompleted {
+  background: #e2e8f0;
+  color: #4a5568;
+}
+
+.statusCancelled {
+  background: #fed7d7;
+  color: #742a2a;
+}
+
+.infoCard {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border-left: 4px solid #38a169;
+}
+
+.infoTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+.infoList {
+  list-style: none;
+  padding: 0;
+}
+
+.infoList li {
+  padding: 0.25rem 0;
+  color: #718096;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.infoList li::before {
+  content: '•';
+  color: #38a169;
+  font-weight: bold;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+  
+  .propertyStatus {
+    grid-template-columns: 1fr;
+  }
+  }
