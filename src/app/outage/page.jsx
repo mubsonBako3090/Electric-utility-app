@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = "force-dynamic";
 
 import styles from '@/styles/outage/outage.module.css';
 // ... rest of imports
