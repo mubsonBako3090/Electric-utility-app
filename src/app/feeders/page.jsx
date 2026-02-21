@@ -257,4 +257,58 @@ export default function FeedersPage() {
                   <h3 className="text-lg font-medium text-gray-900 mb-4">
                     Load Profile (Last 24 Hours)
                   </h3>
-                  <
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={selectedFeeder.loadHistory || [
+                        { time: '00:00', load: 65 },
+                        { time: '04:00', load: 45 },
+                        { time: '08:00', load: 78 },
+                        { time: '12:00', load: 82 },
+                        { time: '16:00', load: 88 },
+                        { time: '20:00', load: 72 },
+                      ]}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="time" />
+                        <YAxis />
+                        <Tooltip />
+                        <Line type="monotone" dataKey="load" stroke="#3B82F6" strokeWidth={2} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="bg-white shadow rounded-lg p-6">
+                  <h3 className="text-lg font-medium text-gray-900 mb-4">
+                    Quick Actions
+                  </h3>
+                  <div className="flex space-x-3">
+                    <button className="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700">
+                      Schedule Maintenance
+                    </button>
+                    <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                      View Reports
+                    </button>
+                    <button className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                      Update Status
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="bg-white shadow rounded-lg p-12 text-center">
+                <BoltIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  No Feeder Selected
+                </h3>
+                <p className="text-gray-500">
+                  Select a feeder from the list to view details
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+      }
