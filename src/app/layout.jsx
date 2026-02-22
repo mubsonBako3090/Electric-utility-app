@@ -1,8 +1,9 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
+import { AuthModalProvider } from '@/context/AuthModalContext';
 import ToastProvider from '@/components/ui/ToastProvider';
-
+import AuthModals from '@/components/auth/AuthModals';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,11 +17,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          
+          <AuthModalProvider>
             <ToastProvider />
             <AuthModals />
             {children}
-      
+          </AuthModalProvider>
         </AuthProvider>
       </body>
     </html>
