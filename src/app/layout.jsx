@@ -1,7 +1,6 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
-import { AuthModalProvider } from '@/context/AuthModalContext';
 import ToastProvider from '@/components/ui/ToastProvider';
 
 
@@ -17,7 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-        
+          
             <ToastProvider />
             <AuthModals />
             {children}
