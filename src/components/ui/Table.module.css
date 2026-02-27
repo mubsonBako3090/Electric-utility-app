@@ -1,0 +1,117 @@
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  background: white;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.thead {
+  background: #F9FAFB;
+}
+
+.th {
+  padding: 16px 20px;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #E5E7EB;
+  white-space: nowrap;
+}
+
+.td {
+  padding: 16px 20px;
+  color: #1F2937;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+/* Striped rows */
+.striped tbody tr:nth-child(even) {
+  background: #F9FAFB;
+}
+
+/* Bordered */
+.bordered th,
+.bordered td {
+  border: 1px solid #E5E7EB;
+}
+
+/* Hoverable */
+.hoverable tbody tr:hover {
+  background: #EEF2FF;
+  cursor: pointer;
+}
+
+/* Compact mode */
+.compact .th,
+.compact .td {
+  padding: 12px 16px;
+}
+
+/* Clickable rows */
+.clickable {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* Text alignment */
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Loading state */
+.loadingContainer {
+  padding: 60px;
+  text-align: center;
+  background: white;
+  border-radius: 12px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #F3F4F6;
+  border-top-color: #1E3A8A;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Empty state */
+.emptyContainer {
+  padding: 60px;
+  text-align: center;
+  background: white;
+  border-radius: 12px;
+}
+
+.emptyMessage {
+  color: #6B7280;
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .th,
+  .td {
+    padding: 12px;
+    font-size: 13px;
+  }
+}
