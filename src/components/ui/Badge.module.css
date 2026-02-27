@@ -1,0 +1,89 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.rounded {
+  border-radius: 9999px;
+}
+
+/* Variants */
+.default {
+  background: #F3F4F6;
+  color: #1F2937;
+}
+
+.primary {
+  background: #1E3A8A;
+  color: white;
+}
+
+.success {
+  background: #059669;
+  color: white;
+}
+
+.warning {
+  background: #D97706;
+  color: white;
+}
+
+.danger {
+  background: #DC2626;
+  color: white;
+}
+
+.info {
+  background: #2563EB;
+  color: white;
+}
+
+/* Sizes */
+.small {
+  padding: 4px 8px;
+  font-size: 12px;
+  gap: 4px;
+}
+
+.medium {
+  padding: 6px 12px;
+  font-size: 14px;
+  gap: 6px;
+}
+
+.large {
+  padding: 8px 16px;
+  font-size: 16px;
+  gap: 8px;
+}
+
+/* Status indicators */
+.status-pending {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.status-resolved {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+.status-rejected {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.status-in-progress {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
