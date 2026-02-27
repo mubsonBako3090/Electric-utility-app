@@ -1,0 +1,55 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 9999px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.icon {
+  font-size: 1.1em;
+}
+
+/* Sizes */
+.small {
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+.medium {
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+.large {
+  padding: 6px 16px;
+  font-size: 14px;
+}
+
+/* Priority Colors */
+.normal {
+  background: #F3F4F6;
+  color: #4B5563;
+}
+
+.urgent {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.emergency {
+  background: #FEE2E2;
+  color: #991B1B;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+    background: #FCA5A5;
+  }
+}
