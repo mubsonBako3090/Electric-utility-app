@@ -1,0 +1,83 @@
+.card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Variants */
+.default {
+  background: white;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.elevated {
+  background: white;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+}
+
+.outlined {
+  background: transparent;
+  border: 2px solid #E5E7EB;
+}
+
+.primary {
+  background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
+  color: white;
+}
+
+/* Padding */
+.padding-none {
+  padding: 0;
+}
+
+.padding-small {
+  padding: 16px;
+}
+
+.padding-medium {
+  padding: 24px;
+}
+
+.padding-large {
+  padding: 32px;
+}
+
+/* Hover effect */
+.hoverable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+/* Card sections */
+.header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #E5E7EB;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.body {
+  padding: 24px;
+}
+
+.footer {
+  padding: 20px 24px;
+  border-top: 1px solid #E5E7EB;
+  background: #F9FAFB;
+}
+
+/* Dark text for primary variant */
+.primary .header,
+.primary .footer {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.primary .footer {
+  background: rgba(255, 255, 255, 0.1);
+}
