@@ -1,0 +1,128 @@
+.tabs {
+  width: 100%;
+}
+
+.tabList {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid #E5E7EB;
+  margin-bottom: 24px;
+}
+
+/* Centered */
+.centered {
+  justify-content: center;
+}
+
+/* Tab button */
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  color: #6B7280;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  white-space: nowrap;
+}
+
+.tab:hover:not(.disabled) {
+  color: #1E3A8A;
+}
+
+.tab.active {
+  color: #1E3A8A;
+  font-weight: 600;
+}
+
+/* Underline variant */
+.underline .tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #1E3A8A;
+  border-radius: 2px;
+}
+
+/* Pill variant */
+.pill .tab {
+  border-radius: 9999px;
+}
+
+.pill .tab.active {
+  background: #1E3A8A;
+  color: white;
+}
+
+/* Sizes */
+.small .tab {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.medium .tab {
+  padding: 12px 20px;
+  font-size: 16px;
+}
+
+.large .tab {
+  padding: 14px 24px;
+  font-size: 18px;
+}
+
+/* Disabled state */
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Tab elements */
+.tabIcon {
+  font-size: 1.2em;
+}
+
+.tabBadge {
+  background: #FEE2E2;
+  color: #991B1B;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+/* Tab content */
+.tabContent {
+  position: relative;
+}
+
+.tabPane {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tabPane.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tabList {
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
