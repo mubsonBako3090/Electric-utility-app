@@ -1,0 +1,181 @@
+/* Horizontal orientation */
+.stepper.horizontal {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.stepWrapper {
+  flex: 1;
+  position: relative;
+}
+
+/* Vertical orientation */
+.stepper.vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.vertical .stepWrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* Step */
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover .stepIndicator {
+  transform: scale(1.05);
+}
+
+/* Step indicator */
+.stepIndicator {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #F3F4F6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #6B7280;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+/* Step statuses */
+.step.completed .stepIndicator {
+  background: #059669;
+  color: white;
+}
+
+.step.current .stepIndicator {
+  background: #1E3A8A;
+  color: white;
+  box-shadow: 0 0 0 4px #EEF2FF;
+}
+
+.step.pending .stepIndicator {
+  background: #F3F4F6;
+  color: #9CA3AF;
+}
+
+.completedIcon {
+  font-size: 18px;
+}
+
+.stepNumber {
+  font-size: 16px;
+}
+
+/* Step content */
+.stepContent {
+  flex: 1;
+  padding-top: 8px;
+}
+
+.stepTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.stepDescription {
+  font-size: 14px;
+  color: #6B7280;
+  margin: 0;
+}
+
+/* Connector */
+.connector {
+  position: absolute;
+  background: #E5E7EB;
+  transition: background 0.3s ease;
+}
+
+.horizontal .connector {
+  top: 20px;
+  right: -50%;
+  left: 50%;
+  height: 2px;
+}
+
+.horizontal .connector.completed {
+  background: #059669;
+}
+
+.vertical .connector {
+  left: 20px;
+  top: 40px;
+  width: 2px;
+  height: calc(100% + 24px);
+}
+
+.vertical .connector.completed {
+  background: #059669;
+}
+
+/* Sizes */
+.small .stepIndicator {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+}
+
+.small .stepTitle {
+  font-size: 14px;
+}
+
+.small .stepDescription {
+  font-size: 12px;
+}
+
+.large .stepIndicator {
+  width: 48px;
+  height: 48px;
+  font-size: 20px;
+}
+
+.large .stepTitle {
+  font-size: 18px;
+}
+
+.large .stepDescription {
+  font-size: 15px;
+}
+
+/* Disabled */
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stepper.horizontal {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .horizontal .connector {
+    display: none;
+  }
+
+  .step {
+    width: 100%;
+  }
+  }
