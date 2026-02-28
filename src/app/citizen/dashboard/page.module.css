@@ -1,0 +1,315 @@
+.dashboard {
+  padding: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.welcomeTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.welcomeSubtitle {
+  font-size: 16px;
+  color: #6B7280;
+  margin: 0;
+}
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+/* Content Grid */
+.contentGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+/* Cards */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.viewAll {
+  font-size: 14px;
+  color: #1E3A8A;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.viewAll:hover {
+  text-decoration: underline;
+}
+
+/* Recent Cases */
+.recentCases {
+  grid-column: span 2;
+}
+
+.caseList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.caseItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #F9FAFB;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.caseItem:hover {
+  background: #EEF2FF;
+  transform: translateX(4px);
+}
+
+.caseInfo {
+  flex: 1;
+}
+
+.caseNumber {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1E3A8A;
+  background: #EEF2FF;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.caseTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.caseDate {
+  font-size: 13px;
+  color: #6B7280;
+}
+
+.caseStatus {
+  text-align: right;
+}
+
+.caseProgress {
+  display: block;
+  font-size: 13px;
+  color: #6B7280;
+  margin-top: 8px;
+}
+
+/* Recent Updates */
+.recentUpdates {
+  grid-column: span 1;
+}
+
+/* Upcoming Hearings */
+.upcomingHearings {
+  grid-column: span 1;
+}
+
+.hearingList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hearingItem {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: #F9FAFB;
+  border-radius: 12px;
+}
+
+.hearingDate {
+  text-align: center;
+  min-width: 60px;
+}
+
+.hearingDay {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1E3A8A;
+  line-height: 1;
+}
+
+.hearingMonth {
+  font-size: 14px;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+.hearingInfo {
+  flex: 1;
+}
+
+.hearingTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.hearingTime {
+  font-size: 14px;
+  color: #6B7280;
+  margin: 0 0 8px 0;
+}
+
+.hearingLocation {
+  font-size: 13px;
+  color: #059669;
+  margin: 0;
+}
+
+.joinButton {
+  margin-top: 8px;
+}
+
+.noHearings {
+  text-align: center;
+  color: #6B7280;
+  padding: 32px;
+  margin: 0;
+}
+
+/* Quick Actions */
+.quickActions {
+  grid-column: span 1;
+}
+
+.actionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.actionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: #F9FAFB;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.actionItem:hover {
+  background: #EEF2FF;
+  transform: translateY(-2px);
+}
+
+.actionIcon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.actionLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .recentCases,
+  .recentUpdates,
+  .upcomingHearings,
+  .quickActions {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .welcomeTitle {
+    font-size: 24px;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .caseItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .caseStatus {
+    text-align: left;
+    width: 100%;
+  }
+
+  .hearingItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hearingDate {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .hearingDay {
+    font-size: 20px;
+  }
+
+  .actionGrid {
+    grid-template-columns: 1fr;
+  }
+  }
