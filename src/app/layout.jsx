@@ -1,67 +1,64 @@
-import { Inter, Poppins } from 'next/font/google'
-import './globals.css'
-import layoutStyles from './layout.module.css'
-import { AuthProvider } from '@/components/providers/AuthProvider'
-import { NotificationProvider } from '@/components/providers/NotificationProvider'
-import { ThemeProvider } from '@/components/providers/ThemeProvider'
-import { SocketProvider } from '@/components/providers/SocketProvider'
-import { Toaster } from '@/components/ui/Toast'
+import { Inter } from 'next/font/google';
+import styles from './layout.module.css';
+import './globals.css';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import { AuthProvider } from '@/lib/providers/AuthProvider';
+import { NotificationProvider } from '@/lib/providers/NotificationProvider';
 
-// Font configuration
 const inter = Inter({ 
   subsets: ['latin'],
+  display: 'swap',
   variable: '--font-inter',
-  display: 'swap',
-})
-
-const poppins = Poppins({ 
-  weight: ['400', '500', '600', '700'],
-  subsets: ['latin'],
-  variable: '--font-poppins',
-  display: 'swap',
-})
+});
 
 export const metadata = {
   title: {
-    template: '%s | Public Complaint System',
-    default: 'Public Complaint System - Lodge and Track Complaints',
+    default: 'JusticeConnect NG - Public Complaint Resolution Platform',
+    template: '%s | JusticeConnect NG'
   },
-  description: 'A comprehensive platform for citizens to lodge complaints and track their resolution status with government agencies and mediators.',
-  keywords: ['complaint', 'grievance', 'public service', 'mediation', 'citizen feedback'],
-  authors: [{ name: 'Public Complaint System' }],
-  creator: 'Public Complaint System',
-  publisher: 'Public Complaint System',
+  description: 'A digital platform for Nigerian citizens to report injustices, track cases, and connect with mediators for fair resolution.',
+  keywords: ['justice', 'complaint', 'Nigeria', 'human rights', 'legal aid', 'mediation'],
+  authors: [{ name: 'JusticeConnect NG' }],
+  creator: 'JusticeConnect NG',
+  publisher: 'JusticeConnect NG',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  metadataBase: new URL('https://justiceconnect.ng'),
   alternates: {
     canonical: '/',
+    languages: {
+      'en': '/',
+      'ha': '/ha',
+      'yo': '/yo',
+      'ig': '/ig',
+    },
   },
   openGraph: {
-    title: 'Public Complaint System',
-    description: 'Lodge and track complaints efficiently with our public complaint management system',
-    url: process.env.NEXT_PUBLIC_APP_URL,
-    siteName: 'Public Complaint System',
+    title: 'JusticeConnect NG',
+    description: 'Speak Up. Get Justice. Track Progress.',
+    url: 'https://justiceconnect.ng',
+    siteName: 'JusticeConnect NG',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Public Complaint System',
+        alt: 'JusticeConnect NG - Nigerian Public Complaint Resolution Platform',
       },
     ],
-    locale: 'en_US',
+    locale: 'en_NG',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Public Complaint System',
-    description: 'Lodge and track complaints efficiently with our public complaint management system',
+    title: 'JusticeConnect NG',
+    description: 'Speak Up. Get Justice. Track Progress.',
     images: ['/og-image.png'],
-    creator: '@pcsystem',
+    creator: '@justiceconnect_ng',
   },
   robots: {
     index: true,
@@ -75,66 +72,90 @@ export const metadata = {
     },
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/icon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      {
+        rel: 'mask-icon',
+        url: '/safari-pinned-tab.svg',
+        color: '#1E3A8A',
+      },
+    ],
   },
-  manifest: '/site.webmanifest',
+  manifest: '/manifest.json',
   viewport: {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 5,
     userScalable: true,
   },
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-  ],
-}
+  themeColor: '#1E3A8A',
+  appleWebApp: {
+    title: 'JusticeConnect NG',
+    statusBarStyle: 'black-translucent',
+    startupImage: [
+      '/apple-splash-2048-2732.png',
+    ],
+  },
+  verification: {
+    google: 'google-site-verification-code',
+    yandex: 'yandex-verification-code',
+    bing: 'bing-verification-code',
+  },
+  category: 'legal services',
+};
 
 export const viewport = {
-  themeColor: '#0a7cff',
-}
+  themeColor: '#1E3A8A',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+};
 
 export default function RootLayout({ children }) {
   return (
-    <html 
-      lang="en" 
-      className={`${inter.variable} ${poppins.variable}`}
-      suppressHydrationWarning
-    >
-      <body className={layoutStyles.body}>
-        <ThemeProvider>
-          <AuthProvider>
-            <NotificationProvider>
-              <SocketProvider>
-                <div className={layoutStyles.root}>
-                  {/* Skip to main content link for accessibility */}
-                  <a href="#main-content" className={layoutStyles.skipLink}>
-                    Skip to main content
-                  </a>
-                  
-                  {/* Main content wrapper */}
-                  <div className={layoutStyles.contentWrapper}>
-                    <main id="main-content" className={layoutStyles.main}>
-                      {children}
-                    </main>
-                  </div>
-                  
-                  {/* Toast notifications container */}
-                  <Toaster 
-                    position="top-right"
-                    toastOptions={{
-                      duration: 5000,
-                      className: layoutStyles.toast,
-                    }}
-                  />
-                </div>
-              </SocketProvider>
-            </NotificationProvider>
-          </AuthProvider>
-        </ThemeProvider>
+    <html lang="en" className={inter.variable}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* PWA Primary Color */}
+        <meta name="theme-color" content="#1E3A8A" />
+        
+        {/* Microsoft Tiles */}
+        <meta name="msapplication-TileColor" content="#1E3A8A" />
+        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+        
+        {/* Apple Touch Icons */}
+        <link rel="apple-touch-icon" href="/apple-icon-180x180.png" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#1E3A8A" />
+      </head>
+      <body className={styles.body}>
+        <AuthProvider>
+          <NotificationProvider>
+            <div className={styles.appWrapper}>
+              <Navbar />
+              <main className={styles.mainContent}>
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </NotificationProvider>
+        </AuthProvider>
+        
+        {/* Skip to content link for accessibility */}
+        <a href="#main-content" className={styles.skipLink}>
+          Skip to main content
+        </a>
       </body>
     </html>
-  )
-    }
+  );
+        }
