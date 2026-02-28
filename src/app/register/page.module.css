@@ -1,0 +1,114 @@
+.registerPage {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #F3F4F6 0%, #F9FAFB 100%);
+  padding: 40px 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 520px;
+}
+
+.registerCard {
+  padding: 40px !important;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6B7280;
+  margin: 0;
+}
+
+.alert {
+  margin-bottom: 24px;
+}
+
+.form {
+  margin-bottom: 24px;
+}
+
+.nameRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 24px 0;
+  cursor: pointer;
+  font-size: 14px;
+  color: #4B5563;
+  line-height: 1.5;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.link {
+  color: #1E3A8A;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.submitButton {
+  margin-top: 8px;
+}
+
+.login {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 14px;
+  color: #6B7280;
+}
+
+.loginLink {
+  color: #1E3A8A;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.loginLink:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .registerCard {
+    padding: 24px !important;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .nameRow {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  }
