@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styles from './page.module.css';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import { BarChart } from '@/components/charts';
+import BarChart from '@/components/charts';
 
 export default function HomePage() {
   const stats = [
