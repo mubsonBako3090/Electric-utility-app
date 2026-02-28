@@ -1,5 +1,4 @@
 import { Inter } from 'next/font/google';
-import styles from './layout.module.css';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
