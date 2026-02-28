@@ -1,0 +1,160 @@
+.loginPage {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #F3F4F6 0%, #F9FAFB 100%);
+  padding: 40px 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+}
+
+.loginCard {
+  padding: 40px !important;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6B7280;
+  margin: 0;
+}
+
+.alert {
+  margin-bottom: 24px;
+}
+
+.form {
+  margin-bottom: 24px;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 0 24px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #4B5563;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.forgotLink {
+  font-size: 14px;
+  color: #1E3A8A;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+}
+
+.submitButton {
+  margin-top: 8px;
+}
+
+.register {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 14px;
+  color: #6B7280;
+}
+
+.registerLink {
+  color: #1E3A8A;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.registerLink:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 32px 0 24px;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #E5E7EB;
+}
+
+.divider span {
+  position: relative;
+  background: white;
+  padding: 0 16px;
+  color: #6B7280;
+  font-size: 14px;
+}
+
+.socialButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.socialButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.socialIcon {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .loginCard {
+    padding: 24px !important;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .options {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .socialButtons {
+    grid-template-columns: 1fr;
+  }
+  }
